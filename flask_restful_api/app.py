@@ -1,16 +1,39 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from marshmallow import ValidationError
 from models import db, Task
 from schemas import TaskSchema
 
 app = Flask(__name__)
+app.secret_key = "your-secret-key"
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tasks.db'  # SQLite database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 task_schema = TaskSchema()
 tasks_schema = TaskSchema(many=True)
+
+@app.route('/login', methods = ['POST'])
+def login():
+    data = request.get_json()
+    if data['username'] == 'user' and data['password'] == 'password':
+        session['logged_in'] = True
+        session['username'] = data['username']
+        return jsonify({'message': 'Login successful'})
+    return jsonify({'error': 'Invalid credentials'})
+
+@app.route('/protected', methods = ['POST'])
+def protected():
+    if 'logged_in' in session and session['logged_in']:
+        return jsonify({'message': f'Welcome, {session["username"]}!'})
+    return redirect(url_for('login')) # Redirect to login if not logged in
+
+@app.route('/logout', methods = ['GET'])
+def logout():
+    session.pop('logged_in', None)
+    session.pop('username', None)
+    return jsonify({'message': 'Logged out'})
 
 @app.route('/')
 def hello_world():
