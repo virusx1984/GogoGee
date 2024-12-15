@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<title>System Login</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/ui_styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+
+<!-- <script src="js/jquery-3.4.1.min.js"></script> -->
+<!-- <script src="js/bootstrap.min.js"></script> -->
+
+<script src="js/proj_common_funs.js"></script>
+<script src = "https://code.jquery.com/jquery-3.7.1.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+    .popover {
+        width: 200px;
+        font-size: 12px;
+        font-family: 'Microsoft YaHei', Arial, sans-serif;
+    }
+</style>
+<script>
+        $(document).ready(function () {
+
+            //#region do some remember username
+            var rememberMe = getCookie('rememberMe');
+            if (rememberMe === 'true') {
+                var savedUsername = getCookie('username');
+                if (savedUsername !== '') {
+                    $('#inpUsername').val(savedUsername);
+                    $('#chkRemember').prop('checked', true);
+                }
+            }
+            //#endregion do some remember username
+
+            //#region get_csrf_token
+            $.ajax({
+
+            });
+            //#endregion get_csrf_token
+
+            //#region logout sys
+            $.ajax({
+
+            });
+            //#endregion logout sys
+
+            //#region btnLogin click event
+            $('#btnLogin').click(function () {
+                var username = $('#inpUsername').val();
+                var password = $('#inpPassword').val();
+                var rememberMe = $('#chkRemember').is(':checked');
+
+                //#region validation
+                let validated_result = 0;
+                if (username.trim() === '') { validated_result |= ob01; }
+                if (password.trim() === '') { validated_result |= ob10; }
+
+                //#region username empty
+                if (validated_result == 0b01 || validated_result == 0b11) {
+                    var inpUsername = document.getElementById('inpUsername');
+                    $(inpUsername).popover({
+                        content: 'Ussername cannot be empty',
+                        placement: 'right',
+                    }).on('show.bs.popover', function () {
+                        var thisPopover = document.getElementById(this.getAttribute('aria-describedby'));
+                        setTimeout(function () {
+                            if (thisPopover != null && thisPopover.parentNode) {
+                                thisPopover.parentNode.removeChild(thisPopover);
+                            }
+                        }, 2000);
+                    });
+                    $(inpUsername).popover('show');
+                }
+                //#endregion username empty
+
+                //#region password empty
+                if (validated_result == 0b10) {
+                    var inpPassword = document.getElementById('inpPassword');
+                    $(inpPassword).popover({
+                        content: 'Password cannot be empty',
+                        placement: 'right',
+                    }).on('shown.bs.popover', function () {
+                        var thisPopover = document.getElementById(this.getAttribute('aria-describedby'));
+                        setTimeout(function () {
+                            if (thisPopover != null && thisPopover.parentNode) {
+                                thisPopover.parentNode.removeChild(thisPopover);
+                            }
+                        }, 2000);
+                    });
+                    $(inpPassword).popover('show');
+                }
+                //#endregion password empty
+
+                //#endregion validation
+
+                //#region login2sys
+                var csrftoken = getCookie('csrftoken');
+                $.ajax({
+                    url: app_base_url + 'login2sys/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        username: username,
+                        password: password,
+                    },
+                    xhrFields: { // xhr = XMLHttpRequest
+                        withCredentials: true, // Set this place to true to bring cookies with cross-domain requests.
+                    },
+                    beforeSend: function (xhr, settings) {
+                        xhr.setRequestHeader('X-CSRFToken', csrftoken) // Set the cookie
+                    },
+                    success: function (response) {
+                        console.log(response); //! <!--! remove or comment this line after debug -->
+
+                        if (response.success == true) {
+                            //#region login successfully
+                            localStorage.setItem('curr_user_id', response['user_id']);
+                            localStorage.setItem('curr_username', username);
+                            var queryString = window.location.search;
+                            if (queryString === '') {
+                                window.location.href = 'welcome' + file_ext;
+                            } else {
+                                var params = new URLSearchParams(queryString);
+                                var nextUrl = params.get('next-url');
+                                window.location.href = nextUrl + file_ext;
+                            }
+                            //#endregion login successfully
+                        } else {
+                            //#region cannot login
+                            $(inpPassword).popover({
+                                content: response.message,
+                                placement: 'right',
+                            }).on('shown.bs.popover', function () {
+                                var thisPopover = document.getElementById(this.getAttribute('aria-describedby'));
+                                setTimeout(function () {
+                                    if (thisPopover != null && thisPopover.parentNode) {
+                                        thisPopover.parentNode.removeChild(thisPopover);
+                                    }
+                                }, 2000);
+                            });
+                            $(inpPassword).popover('show');
+                            //#endregion cannot login
+                        }
+
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.error(errorThrown);
+                    }
+                });
+                //#endregion login2sys
+            });
+            //#endregion btnLogin click evnet
+
+        });
+</script>
+
+<body>
+
+    <div class="container login-container">
+        <h1 class="text-center mb-1">Login</h1>
+        <div class="mb-1">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="inpUsername" required>
+        </div>
+        <div class="mb-1">
+            <label for="inpPassword" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password">
+        </div>
+
+        <div class="mb-1">
+            <input type="checkbox" class="form-check-input" id="chkRemember">
+            <label for="chkRemember" class="form-check-label">Remember me</label>
+        </div>
+        <div class="mb-1">
+            <input type="button" id="btnLogin" class="btn btn-primary w-100" value="Login"></input>
+        </div>
+
+    </div>
+</body>
+
+</html>
