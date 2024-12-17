@@ -7,9 +7,9 @@ from schemas import TaskSchema
 app = Flask(__name__)
 app.secret_key = "your-secret-key"
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tasks.db'  # SQLite database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'oracle+cx_oracle://gogogee_test:111111@192.168.3.19:1521/orcl'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db.init_app(app)
+db.init_app(app) # Initialize SQLAlchemy with the Flask app instance
 
 task_schema = TaskSchema()
 tasks_schema = TaskSchema(many=True)
@@ -89,4 +89,6 @@ with app.app_context():
     db.create_all()
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
