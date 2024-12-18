@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from marshmallow import ValidationError
 from models import db, Task
 from schemas import TaskSchema
