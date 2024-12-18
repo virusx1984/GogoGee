@@ -8,7 +8,8 @@ class Task(db.Model):
     description = db.Column(db.String(100), nullable=False)
     description2 = db.Column(db.String(100), nullable=False)
     completed = db.Column(db.Boolean, default=False)
-
+    fullname = db.Column(db.String(120)) # Added fullname column
+    
     def __repr__(self):
         return f'<Task {self.description}>'
     
