@@ -9,15 +9,8 @@ class Task(db.Model):
     description2 = db.Column(db.String(100), nullable=False)
     completed = db.Column(db.Boolean, default=False)
     fullname = db.Column(db.String(120)) # Added fullname column
-    
-    def __repr__(self):
-        return f'<Task {self.description}>'
-    
-
-class Task2(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    description = db.Column(db.String(100), nullable=False)
-    completed = db.Column(db.Boolean, default=False)
+    othername = db.Column(db.String(120))
 
     def __repr__(self):
         return f'<Task {self.description}>'
+    
