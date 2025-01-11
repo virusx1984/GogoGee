@@ -55,14 +55,14 @@
 
                 //#region validation
                 let validated_result = 0;
-                if (username.trim() === '') { validated_result |= ob01; }
-                if (password.trim() === '') { validated_result |= ob10; }
+                if (username.trim() === '') { validated_result |= 0b01; }
+                if (password.trim() === '') { validated_result |= 0b10; }
 
                 //#region username empty
                 if (validated_result == 0b01 || validated_result == 0b11) {
                     var inpUsername = document.getElementById('inpUsername');
                     $(inpUsername).popover({
-                        content: 'Ussername cannot be empty',
+                        content: 'Username cannot be empty',
                         placement: 'right',
                     }).on('show.bs.popover', function () {
                         var thisPopover = document.getElementById(this.getAttribute('aria-describedby'));
@@ -167,7 +167,7 @@
         </div>
         <div class="mb-1">
             <label for="inpPassword" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password">
+            <input type="password" class="form-control" id="inpPassword">
         </div>
 
         <div class="mb-1">
