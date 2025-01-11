@@ -32,7 +32,7 @@ class Company(db.Model):
     location = relationship('Location')
 
     def __repr__(self):
-        return f'<Company {self.c_name}>'
+        return f'<Company {self.name_eng}>'
 
 class BG(db.Model):
     __tablename__ = 'oog_bg'
@@ -67,8 +67,8 @@ class PlantDistrict(db.Model):
     name_eng = Column(String(50))
     name_chn = Column(String(50))
 
-    company = Column(Integer, ForeignKey('oog_company.id'))
-    company_id = relationship('Company')
+    company_id = Column(Integer, ForeignKey('oog_company.id'))
+    company = relationship('Company')
 
     location_id = Column(Integer, ForeignKey('oog_location.id'))
     location = relationship('Location')
@@ -90,11 +90,11 @@ class Plant(db.Model):
     bu = relationship('BU')
 
     def __repr__(self):
-        return f'<Plant {self.name_eng}>'
+        return f'<Plant {self.plant_code}>'
     
 class Supplier(db.Model):
     __tablename__ = 'oog_supplier'
-    __table_args__ = {'comment': 'not only machine suppliers, but also material suppliers, outourcing suppliers etc.'}
+    __table_args__ = {'comment': 'not only machine suppliers, but also material suppliers, out outsourcing suppliers etc.'}
 
     id = Column(Integer, primary_key = True)
     name_eng = Column(String(100))
@@ -171,7 +171,7 @@ class Machine(db.Model):
     acuisition_date = Column(Date)
 
     def __repr__(self):
-        return f'<Supplier {self.verbose_name}>'
+        return f'<Machine {self.verbose_name}>'
     
 class Asset(db.Model):
     __tablename__ = 'oog_asset'
@@ -184,7 +184,7 @@ class Asset(db.Model):
 
     num = Column(String(100))
     tmp_num = Column(String(100))
-    assert_name = Column(String(100))
+    asset_name = Column(String(100))
     original_price = Column(Float)
     op_currency = Column(String(10), comment = 'currency of original price')
     op_date = Column(Date, comment = 'date of original price')
@@ -193,7 +193,7 @@ class Asset(db.Model):
     ap_date = Column(Date, comment = 'date of acquisition price')
 
     def __repr__(self):
-        return f'<Asset {self.assert_name}>'
+        return f'<Asset {self.asset_name}>'
     
 class Customer(db.Model):
     __tablename__ = 'oog_customer'
