@@ -1,6 +1,7 @@
 # Models Documentation
 
 ## Location
+### Fields
 - country: String(100)
 - province: String(100)
 - city: String(100)
@@ -10,65 +11,70 @@
 - latitude: Float
 
 ## Company
+### Fields
 - name_eng: String(50)
 - name_chn: String(50) (may equal english name)
-- location_id: Integer (foreign key to Location)
-- location: Relationship to Location
+
+### Relationships
+- location_id -> Location
 
 ## BG (Business Group)
+### Fields
 - name_eng: String(50)
 - name_chn: String(50) (may equal english name)
 
 ## BU (Business Unit)
+### Fields
 - name_eng: String(50)
 - name_chn: String(50) (may equal english name)
-- bg_id: Integer (foreign key to BG)
-- bg: Relationship to BG
 
-## Plant District
+### Relationships
+- bg_id -> BG
+
+## PlantDistrict
+### Fields
 - name_eng: String(50)
 - name_chn: String(50)
-- company_id: Integer (foreign key to Company)
-- company: Relationship to Company
-- location_id: Integer (foreign key to Location)
-- location: Relationship to Location
+
+### Relationships
+- company_id -> Company
+- location_id -> Location
 
 ## Plant
+### Fields
 - plant_code: String(10) (e.g., SA03, QA08)
-- plant_district_id: Integer (foreign key to Plant District)
-- plant_district: Relationship to Plant District
-- bu_id: Integer (foreign key to BU)
-- bu: Relationship to BU
+
+### Relationships
+- plant_district_id -> PlantDistrict
+- bu_id -> BU
 
 ## Supplier
+### Fields
 - name_eng: String(100)
 - name_chn: String(100) (may equal english name)
 - region: String(200) (headquarters location)
 - web_site: String(200)
 - detail_info: Text
 
-## Supplier POD (Place of Delivery)
+## SupplierPOD (Place of Delivery)
+### Fields
 - alias: String(100)
-- location_id: Integer (foreign key to Location)
-- location: Relationship to Location
-- supplier_id: Integer (foreign key to Supplier)
-- supplier: Relationship to Supplier
 
-## Currency Exchange
+### Relationships
+- location_id -> Location
+- supplier_id -> Supplier
+
+## CurrencyExchange
+### Fields
 - fr_curr: String(10)
 - to_curr: String(10)
 - ex_dt: DateTime (default: current time)
 - ex_rate: Float
 
 ## Machine
-- supplier_pod_id: Integer (foreign key to Supplier POD)
-- supplier_pod: Relationship to Supplier POD
-- proxy_supplier_pod_id: Integer (foreign key to Supplier POD)
-- proxy_supplier_pod: Relationship to Supplier POD
-- plant_id: Integer (foreign key to Plant)
-- plant: Relationship to Plant
+### Fields
 - floor: Float
-- coordx: Float
+- coordx: Float (test comment)
 - coordy: Float
 - m_length: Float (machine length)
 - m_width: Float (machine width)
@@ -82,9 +88,13 @@
 - detail_info: Text
 - acquisition_date: Date
 
+### Relationships
+- supplier_pod_id -> SupplierPOD
+- proxy_supplier_pod_id -> SupplierPOD
+- plant_id -> Plant
+
 ## Asset
-- machine_id: Integer (foreign key to Machine)
-- machine: Relationship to Machine
+### Fields
 - num: String(100)
 - tmp_num: String(100)
 - asset_name: String(100)
@@ -95,28 +105,38 @@
 - ap_currency: String(10) (acquisition price currency)
 - ap_date: Date (acquisition price date)
 
+### Relationships
+- machine_id -> Machine
+
 ## Customer
+### Fields
 - name_eng: String(100)
 - name_chn: String(100) (may equal english name)
 - region: String(200) (headquarters location)
 - web_site: String(200)
 - detail_info: Text
 
-## Shipping Site
-- customer_id: Integer (foreign key to Customer)
-- customer: Relationship to Customer
-- company_id: Integer (foreign key to Company)
-- company: Relationship to Company
-- location_id: Integer (foreign key to Location)
-- location: Relationship to Location
+## ShippingSite
+### Fields
 - name_eng: String(100)
 - name_chn: String(100) (may equal english name)
 
+### Relationships
+- customer_id -> Customer
+- company_id -> Company
+- location_id -> Location
+
 ## Product
-- customer_id: Integer (foreign key to Customer)
-- customer: Relationship to Customer
+### Fields
 - cpn: String(50) (customer part number)
 - proj: String(50) (customer project)
 - pn: String(50) (part number)
 - semi_pn: String(100) (semi product part number)
 - detail_info: String(50)
+
+### Relationships
+- customer_id -> Customer
+
+## TestForeignKey
+### Relationships
+- product_id -> Customer

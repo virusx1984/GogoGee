@@ -248,3 +248,14 @@ class Product(db.Model):
 
     def __repr__(self):
         return f'<Product {self.pn}>'
+
+class TestForeignKey(db.Model):
+    __tablename__ = 'oog_test_foreign_key'
+    __table_args__ = {'comment': 'Test foreign key relationship'}
+
+    id = Column(Integer, primary_key=True)
+    product_id = Column(Integer, ForeignKey('oog_customer.id'))
+    product = relationship('Customer')
+
+    def __repr__(self):
+        return f'<TestForeignKey {self.id}>'
