@@ -182,7 +182,7 @@ class Asset(db.Model):
     machine_id = Column(Integer, ForeignKey('oog_machine.id'))
     machine = relationship('Machine')
 
-    num = Column(String(100))
+    num = Column(String(100), comment='there is anoter test comment')
     tmp_num = Column(String(100))
     asset_name = Column(String(100))
     original_price = Column(Float)
@@ -240,7 +240,7 @@ class Product(db.Model):
     customer_id = Column(Integer, ForeignKey('oog_customer.id'))
     customer = relationship('Customer')
 
-    cpn = Column(String(50), comment = 'customer part number')
+    cpn4444 = Column(String(50), comment = 'customer part number')
     proj = Column(String(50), comment = 'customer project')
     pn = Column(String(50), comment = 'part number')
     semi_pn = Column(String(100), comment = 'semi product part number')
@@ -254,8 +254,8 @@ class TestForeignKey(db.Model):
     __table_args__ = {'comment': 'Test foreign key relationship'}
 
     id = Column(Integer, primary_key=True)
-    product_id = Column(Integer, ForeignKey('oog_customer.id'))
-    product = relationship('Customer')
+    product_id = Column(Integer, ForeignKey('oog_product.id'))
+    product = relationship('Product')
 
     def __repr__(self):
         return f'<TestForeignKey {self.id}>'

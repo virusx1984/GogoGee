@@ -74,7 +74,7 @@
 ## Machine
 ### Fields
 - floor: Float
-- coordx: Float (test comment)
+- coordx: Float
 - coordy: Float
 - m_length: Float (machine length)
 - m_width: Float (machine width)
@@ -95,7 +95,7 @@
 
 ## Asset
 ### Fields
-- num: String(100)
+- num: String(100) (there is anoter test comment)
 - tmp_num: String(100)
 - asset_name: String(100)
 - original_price: Float
@@ -128,7 +128,7 @@
 
 ## Product
 ### Fields
-- cpn: String(50) (customer part number)
+- cpn4444: String(50) (customer part number)
 - proj: String(50) (customer project)
 - pn: String(50) (part number)
 - semi_pn: String(100) (semi product part number)
@@ -139,4 +139,4 @@
 
 ## TestForeignKey
 ### Relationships
-- product_id -> Customer
+- product_id -> Product
