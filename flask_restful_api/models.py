@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String, func, Date, DateTime, Float, Text, Enum, ForeignKey
+from sqlalchemy import Column, Integer, String, func, Date, DateTime, Float, Text, Enum, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -8,6 +9,12 @@ class Location(db.Model):
     __tablename__ = 'oog_location'
 
     id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
     country = Column(String(100))
     province = Column(String(100))
     city = Column(String(100))
@@ -24,6 +31,12 @@ class Company(db.Model):
     __table_args__ = {'comment': 'a company group that owns many subsidiaries'}
 
     id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
 
     name_eng = Column(String(50))
     name_chn = Column(String(50), comment = 'maybe there is no chinese name, just let it equals to english name')
@@ -36,9 +49,15 @@ class Company(db.Model):
 
 class BG(db.Model):
     __tablename__ = 'oog_bg'
-    __table_args__ = {'comment': 'Business Group. BG1, BG2, BG3 etc'}
+    __table_args__ = {'comment': 'Business Group (BG1, BG2, BG3 etc)'}
 
     id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
     name_eng = Column(String(50))
     name_chn = Column(String(50), comment = 'maybe there is no chinese name, just let it equals to english name')
 
@@ -47,9 +66,15 @@ class BG(db.Model):
 
 class BU(db.Model):
     __tablename__ = 'oog_bu'
-    __table_args__ = {'comment': 'Business Unit. HDI, FPC, MSAP, RPCB, BTK etc'}
+    __table_args__ = {'comment': 'Business Unit (HDI, FPC, MSAP, RPCB, BTK etc)'}
 
     id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
     name_eng = Column(String(50))
     name_chn = Column(String(50), comment = 'maybe there is no chinese name, just let it equals to english name')
 
@@ -61,9 +86,15 @@ class BU(db.Model):
     
 class PlantDistrict(db.Model):
     __tablename__ = 'oog_plant_district'
-    __table_args__ = {'comment': 'the place where many plants located. like SA, SB, HA, HB, QA etc.'}
+    __table_args__ = {'comment': 'place where many plants located (SA, SB, HA, HB, QA etc)'}
 
     id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
     name_eng = Column(String(50))
     name_chn = Column(String(50))
 
@@ -78,9 +109,15 @@ class PlantDistrict(db.Model):
     
 class Plant(db.Model):
     __tablename__ = 'oog_plant'
-    __table_args__ = {'comment': 'specific building of a factory. like SA03, SA02'}
+    __table_args__ = {'comment': 'specific building of a factory (SA03, SA02)'}
 
     id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
     plant_code = Column(String(10), comment = 'like SA03, QA08 etc.')
 
     plant_district_id = Column(Integer, ForeignKey('oog_plant_district.id'))
@@ -94,9 +131,15 @@ class Plant(db.Model):
     
 class Supplier(db.Model):
     __tablename__ = 'oog_supplier'
-    __table_args__ = {'comment': 'not only machine suppliers, but also material suppliers, out outsourcing suppliers etc.'}
+    __table_args__ = {'comment': 'machine, material, and outsourcing suppliers'}
 
     id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
     name_eng = Column(String(100))
     name_chn = Column(String(100), comment = 'maybe there is no chinese name, just let it equals to english name')
     region = Column(String(200), comment = 'the localtion of headquarters. like China HK, China Taiwan, Japan etc.')
@@ -108,9 +151,15 @@ class Supplier(db.Model):
     
 class SupplierPOD(db.Model):
     __tablename__ = 'oog_supplier_pod'
-    __table_args__ = {'comment': 'POD: Place Of Delivery. A supplier many have many place to delivery the products.'}
+    __table_args__ = {'comment': 'Place of Delivery (supplier may have multiple delivery places)'}
 
     id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
 
     alias = Column(String(100))
 
@@ -129,6 +178,12 @@ class CurrencyEx(db.Model):
     __table_args__ = {'comment': 'currency exchange rate data'}
 
     id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
 
     fr_curr = Column(String(10))
     to_curr = Column(String(10))
@@ -144,6 +199,12 @@ class Machine(db.Model):
     __table_args__ = {'comment': 'the meta data of each machine'}
 
     id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
 
     supplier_pod_id = Column(Integer, ForeignKey('oog_supplier_pod.id'))
     supplier_pod = relationship('SupplierPOD')
@@ -153,6 +214,7 @@ class Machine(db.Model):
 
     plant_id = Column(Integer, ForeignKey('oog_plant.id'))
     plant = relationship('Plant')
+
 
     floor = Column(Float)
     coordx = Column(Float)
@@ -178,6 +240,12 @@ class Asset(db.Model):
     __table_args__ = {'comment': 'one machine may have more than one asset'}
 
     id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
 
     machine_id = Column(Integer, ForeignKey('oog_machine.id'))
     machine = relationship('Machine')
@@ -197,9 +265,15 @@ class Asset(db.Model):
     
 class Customer(db.Model):
     __tablename__ = 'oog_customer'
-    __table_args__ = {'comment': 'a company of our company group can be a customer. but need to add new customer to represent it.'}
+    __table_args__ = {'comment': 'company group can be a customer'}
 
     id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
     name_eng = Column(String(100))
     name_chn = Column(String(100), comment = 'maybe there is no chinese name, just let it equals to english name')
     region = Column(String(200), comment = 'the localtion of headquarters. like China HK, China Taiwan, Japan etc.')
@@ -211,9 +285,15 @@ class Customer(db.Model):
 
 class ShippingSite(db.Model):
     __tablename__ = 'oog_shipping_site'
-    __table_args__ = {'comment': 'a customer may have may sites to receive you products'}
+    __table_args__ = {'comment': 'customer may have multiple receiving sites'}
 
     id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
 
     customer_id = Column(Integer, ForeignKey('oog_customer.id'))
     customer = relationship('Customer')
@@ -233,29 +313,411 @@ class ShippingSite(db.Model):
     
 class Product(db.Model):
     __tablename__ = 'oog_product'
-    __table_args__ = {'comment': 'include semi-prodcut'}
+    __table_args__ = {'comment': 'includes semi-products'}
 
     id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
 
     customer_id = Column(Integer, ForeignKey('oog_customer.id'))
     customer = relationship('Customer')
 
-    cpn4444 = Column(String(50), comment = 'customer part number')
+    cpn = Column(String(50), comment = 'customer part number')
     proj = Column(String(50), comment = 'customer project')
     pn = Column(String(50), comment = 'part number')
     semi_pn = Column(String(100), comment = 'semi product part number')
-    detail_info = Column(String(50))
+    detail_info = Column(Text)
+    virtual = Column(Boolean)
 
     def __repr__(self):
         return f'<Product {self.pn}>'
 
-class TestForeignKey(db.Model):
-    __tablename__ = 'oog_test_foreign_key'
-    __table_args__ = {'comment': 'Test foreign key relationship'}
+class ProductShareVer(db.Model):
+    __tablename__ = 'oog_product_share_ver'
+    __table_args__ = {'comment': 'share version'}
 
-    id = Column(Integer, primary_key=True)
-    product_id = Column(Integer, ForeignKey('oog_product.id'))
-    product = relationship('Product')
+    id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    product1_id = Column(Integer, ForeignKey('oog_product.id'))
+    product1 = relationship('Product', foreign_keys=[product1_id])
+    
+    product2_id = Column(Integer, ForeignKey('oog_product.id'))
+    product2 = relationship('Product', foreign_keys=[product2_id])
 
     def __repr__(self):
-        return f'<TestForeignKey {self.id}>'
+        return f'<ProductShareVer {self.id}>'
+
+class PDBUProduct(db.Model):
+    __tablename__ = 'oog_pdbu_product'
+    
+    id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    rpn = Column(String(50))
+    detail_info = Column(Text)
+    ignore_validate_rpn = Column(Boolean)
+    
+    bu_id = Column(Integer, ForeignKey('oog_bu.id'))
+    bu = relationship('BU')
+    
+    plant_district_id = Column(Integer, ForeignKey('oog_plant_district.id'))
+    plant_district = relationship('PlantDistrict')
+    
+    master_product_id = Column(Integer, ForeignKey('oog_product.id'))
+    master_product = relationship('Product', foreign_keys=[master_product_id])
+    
+    sub_product_id = Column(Integer, ForeignKey('oog_product.id'))
+    sub_product = relationship('Product', foreign_keys=[sub_product_id])
+
+    def __repr__(self):
+        return f'<PDBUProduct {self.rpn}>'
+
+class YieldRate(db.Model):
+    __tablename__ = 'oog_yield_rate'
+    __table_args__ = {'comment': 'yield rate data'}
+
+    id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    yr_date = Column(Date)
+    yr = Column(Float)
+    detail_info = Column(Text)
+    
+    pdbu_product_id = Column(Integer, ForeignKey('oog_pdbu_product.id'))
+    pdbu_product = relationship('PDBUProduct')
+
+    def __repr__(self):
+        return f'<YieldRate {self.yr_date}>'
+
+class PartNum(db.Model):
+    __tablename__ = 'oog_part_num'
+    __table_args__ = {'comment': 'part number version tracking'}
+
+    id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    pn = Column(String(20))
+    ver = Column(String(10))
+    pn_create_dt = Column(DateTime)
+    change_info = Column(Text)
+    
+    pre_part_num_id = Column(Integer, ForeignKey('oog_part_num.id'))
+    pre_part_num = relationship('PartNum')
+
+    def __repr__(self):
+        return f'<PartNum {self.pn}>'
+
+class PNLayer(db.Model):
+    __tablename__ = 'oog_pn_layer'
+
+    id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    layer_code = Column(Integer)
+    layer_name = Column(String(20))
+    
+    part_num_id = Column(Integer, ForeignKey('oog_part_num.id'))
+    part_num = relationship('PartNum')
+    
+    next_pn_layer_id = Column(Integer, ForeignKey('oog_pn_layer.id'))
+    next_pn_layer = relationship('PNLayer')
+
+    def __repr__(self):
+        return f'<PNLayer {self.layer_name}>'
+
+class ProcCode(db.Model):
+    __tablename__ = 'oog_proc_code'
+    
+    id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    p_code = Column(String(10))
+    p_name = Column(String(20))
+    p_normal_lt = Column(Float)
+
+    def __repr__(self):
+        return f'<ProcCode {self.p_code}>'
+
+class SubProcCode(db.Model):
+    __tablename__ = 'oog_sub_proc_code'
+    
+    id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    p_code = Column(String(10))
+    p_name = Column(String(20))
+
+    def __repr__(self):
+        return f'<SubProcCode {self.p_code}>'
+
+class PNLayerProc(db.Model):
+    __tablename__ = 'oog_pn_layer_proc'
+    
+    id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    seq = Column(Integer)
+    proc_code_seq = Column(Integer)
+    
+    pn_layer_id = Column(Integer, ForeignKey('oog_pn_layer.id'))
+    pn_layer = relationship('PNLayer')
+    
+    proc_code_id = Column(Integer, ForeignKey('oog_proc_code.id'))
+    proc_code = relationship('ProcCode')
+    
+    proc_code_old_id = Column(Integer, ForeignKey('oog_proc_code.id'))
+    proc_code_old = relationship('ProcCode', foreign_keys=[proc_code_old_id])
+
+    def __repr__(self):
+        return f'<PNLayerProc {self.seq}>'
+
+class PNLayerSProc(db.Model):
+    __tablename__ = 'oog_pn_layer_sproc'
+    
+    id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    seq = Column(Integer)
+    sub_proc_code_seq = Column(Integer)
+    pcs_cnt = Column(Integer)
+    detail_info = Column(Text)
+    
+    pn_layer_proc_id = Column(Integer, ForeignKey('oog_pn_layer_proc.id'))
+    pn_layer_proc = relationship('PNLayerProc')
+    
+    sub_proc_code_id = Column(Integer, ForeignKey('oog_sub_proc_code.id'))
+    sub_proc_code = relationship('SubProcCode')
+
+    def __repr__(self):
+        return f'<PNLayerSProc {self.seq}>'
+
+class Role(db.Model):
+    __tablename__ = 'oog_role'
+    
+    id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    name = Column(String(50))
+    description = Column(String(255))
+    
+    def __repr__(self):
+        return f'<Role {self.name}>'
+
+class UserRole(db.Model):
+    __tablename__ = 'oog_user_role'
+    
+    id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    user_id = Column(Integer, ForeignKey('oog_user.id'))
+    user = relationship('User', foreign_keys=[user_id])
+    
+    role_id = Column(Integer, ForeignKey('oog_role.id'))
+    role = relationship('Role', foreign_keys=[role_id])
+    
+    def __repr__(self):
+        return f'<UserRole {self.id}>'
+
+class User(db.Model):
+    __tablename__ = 'oog_user'
+
+    id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'), nullable=True)
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'), nullable=True)
+    user_name = Column(String(50), unique=True, nullable=False)
+    password = Column(String(255), nullable=False)
+    name_eng = Column(String(50))
+    name_chn = Column(String(50))
+    is_active = Column(Boolean, default=True)
+    
+    roles = relationship('Role', secondary='oog_user_role')
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+
+    def __repr__(self):
+        return f'<User {self.user_name}>'
+
+class Permission(db.Model):
+    __tablename__ = 'oog_permission'
+    
+    id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    name = Column(String(50))
+    description = Column(String(255))
+    
+    def __repr__(self):
+        return f'<Permission {self.name}>'
+
+class RolePermission(db.Model):
+    __tablename__ = 'oog_role_permission'
+    
+    id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    role_id = Column(Integer, ForeignKey('oog_role.id'))
+    role = relationship('Role')
+    
+    permission_id = Column(Integer, ForeignKey('oog_permission.id'))
+    permission = relationship('Permission')
+    
+    def __repr__(self):
+        return f'<RolePermission {self.id}>'
+
+class AuditLog(db.Model):
+    __tablename__ = 'oog_audit_log'
+    
+    id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    action = Column(String(50))
+    details = Column(Text)
+    timestamp = Column(DateTime, default=func.now())
+    
+    user_id = Column(Integer, ForeignKey('oog_user.id'))
+    user = relationship('User')
+    
+    def __repr__(self):
+        return f'<AuditLog {self.action}>'
+
+class UserSession(db.Model):
+    __tablename__ = 'oog_user_session'
+    
+    id = Column(Integer, primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    session_created_dt = Column(DateTime, default=func.now())
+    session_expires_dt = Column(DateTime)
+    last_activity = Column(DateTime, default=func.now())
+    
+    user_id = Column(Integer, ForeignKey('oog_user.id'))
+    user = relationship('User')
+    
+    def __repr__(self):
+        return f'<UserSession {self.id}>'
+
+class MenuItem(db.Model):
+    __tablename__ = 'oog_menu_item'
+    __table_args__ = {'comment': 'Represents a single menu item in the hierarchical menu system'}
+    
+    id = Column(Integer, primary_key=True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    name = Column(String(50), comment='menu item name')
+    icon = Column(String(50), comment='optional icon class')
+    route = Column(String(100), comment='route path')
+    order = Column(Integer, comment='display order')
+    parent_id = Column(Integer, ForeignKey('oog_menu_item.id'), comment='foreign key to parent menu item')
+    is_active = Column(Boolean, default=True, comment='controls visibility')
+    
+    children = relationship('MenuItem')
+    permissions = relationship('MenuPermission')
+    
+    def __repr__(self):
+        return f'<MenuItem {self.name}>'
+
+class MenuPermission(db.Model):
+    __tablename__ = 'oog_menu_permission'
+    __table_args__ = {'comment': 'Links menu items to permissions'}
+    
+    id = Column(Integer, primary_key=True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    menu_item_id = Column(Integer, ForeignKey('oog_menu_item.id'))
+    menu_item = relationship('MenuItem')
+    
+    permission_id = Column(Integer, ForeignKey('oog_permission.id'))
+    permission = relationship('Permission')
+    
+    def __repr__(self):
+        return f'<MenuPermission {self.id}>'

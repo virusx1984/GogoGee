@@ -1,142 +1,211 @@
 # Models Documentation
 
 ## Location
-### Fields
-- country: String(100)
-- province: String(100)
-- city: String(100)
-- street: String(200)
-- address: String(200)
-- longitude: Float
-- latitude: Float
+- country: String(100, nullable=True)  // Country name (optional)
+- province: String(100, nullable=True)  // Province/state (optional)
+- city: String(100, nullable=True)  // City name (optional)
+- street: String(200, nullable=True)  // Street address (optional)
+- address: String(200, nullable=True)  // Full address (optional)
+- longitude: Float(nullable=True)  // GPS coordinate (optional)
+- latitude: Float(nullable=True)  // GPS coordinate (optional)
 
 ## Company
-### Fields
-- name_eng: String(50)
-- name_chn: String(50) (may equal english name)
-
-### Relationships
-- location_id -> Location
+// A company group that owns many subsidiaries
+- name_eng: String(50, unique=True)  // Required unique English name
+- name_chn: String(50, nullable=True)  // Optional Chinese name
+- location: Location(nullable=True)  // Optional location details
 
 ## BG (Business Group)
-### Fields
-- name_eng: String(50)
-- name_chn: String(50) (may equal english name)
+- name_eng: String(50, unique=True)  // Required unique English name
+- name_chn: String(50, nullable=True)  // Optional Chinese name
 
 ## BU (Business Unit)
-### Fields
-- name_eng: String(50)
-- name_chn: String(50) (may equal english name)
-
-### Relationships
-- bg_id -> BG
+- name_eng: String(50, unique=True)  // Required unique English name
+- name_chn: String(50, nullable=True)  // Optional Chinese name
+- bg: BG(nullable=True)  // Optional business group reference
 
 ## PlantDistrict
-### Fields
-- name_eng: String(50)
-- name_chn: String(50)
-
-### Relationships
-- company_id -> Company
-- location_id -> Location
+- name_eng: String(50, unique=True)  // Required unique English name
+- name_chn: String(50, nullable=True)  // Optional Chinese name
+- company: Company(nullable=True)  // Optional company reference
+- location: Location(nullable=True)  // Optional location details
 
 ## Plant
-### Fields
-- plant_code: String(10) (e.g., SA03, QA08)
-
-### Relationships
-- plant_district_id -> PlantDistrict
-- bu_id -> BU
+- plant_code: String(10, unique=True)  // Required unique plant code (e.g. SA03, QA08)
+- plant_district: PlantDistrict(nullable=True)  // Optional plant district reference
+- bu: BU(nullable=True)  // Optional business unit reference
 
 ## Supplier
-### Fields
 - name_eng: String(100)
-- name_chn: String(100) (may equal english name)
-- region: String(200) (headquarters location)
+- name_chn: String(100)  // May be same as English name
+- region: String(200)  // Headquarters location
 - web_site: String(200)
 - detail_info: Text
 
 ## SupplierPOD (Place of Delivery)
-### Fields
 - alias: String(100)
+- location: Location
+- supplier: Supplier
 
-### Relationships
-- location_id -> Location
-- supplier_id -> Supplier
-
-## CurrencyExchange
-### Fields
+## CurrencyEx (Currency Exchange)
 - fr_curr: String(10)
 - to_curr: String(10)
-- ex_dt: DateTime (default: current time)
+- ex_dt: DateTime  // Default: func.now()
 - ex_rate: Float
 
 ## Machine
-### Fields
 - floor: Float
 - coordx: Float
 - coordy: Float
-- m_length: Float (machine length)
-- m_width: Float (machine width)
-- m_height: Float (machine height)
-- cover_length: Float (including operation/repair areas)
-- cover_width: Float (including operation/repair areas)
+- m_length: Float  // Machine length
+- m_width: Float  // Machine width
+- m_height: Float  // Machine height
+- cover_length: Float  // Occupied area length
+- cover_width: Float  // Occupied area width
 - standard_name: String(100)
-- verbose_name: String(100) (worker's common name)
+- verbose_name: String(100)  // Worker's common name
 - m_model: String(100)
-- verbose_num: Integer (e.g., Drill machine #1)
+- verbose_num: Integer  // e.g. Drill machine #1
 - detail_info: Text
-- acquisition_date: Date
-
-### Relationships
-- supplier_pod_id -> SupplierPOD
-- proxy_supplier_pod_id -> SupplierPOD
-- plant_id -> Plant
+- acuisition_date: Date
+- supplier_pod: SupplierPOD
+- proxy_supplier_pod: SupplierPOD
+- plant: Plant
 
 ## Asset
-### Fields
-- num: String(100) (there is anoter test comment)
+- num: String(100)
 - tmp_num: String(100)
 - asset_name: String(100)
 - original_price: Float
-- op_currency: String(10) (original price currency)
-- op_date: Date (original price date)
+- op_currency: String(10)  // Currency of original price
+- op_date: Date  // Date of original price
 - acquisition_price: Float
-- ap_currency: String(10) (acquisition price currency)
-- ap_date: Date (acquisition price date)
-
-### Relationships
-- machine_id -> Machine
+- ap_currency: String(10)  // Currency of acquisition price
+- ap_date: Date  // Date of acquisition price
+- machine: Machine
 
 ## Customer
-### Fields
 - name_eng: String(100)
-- name_chn: String(100) (may equal english name)
-- region: String(200) (headquarters location)
+- name_chn: String(100)  // May be same as English name
+- region: String(200)  // Headquarters location
 - web_site: String(200)
 - detail_info: Text
 
 ## ShippingSite
-### Fields
 - name_eng: String(100)
-- name_chn: String(100) (may equal english name)
-
-### Relationships
-- customer_id -> Customer
-- company_id -> Company
-- location_id -> Location
+- name_chn: String(100)  // May be same as English name
+- customer: Customer
+- company: Company
+- location: Location
 
 ## Product
-### Fields
-- cpn4444: String(50) (customer part number)
-- proj: String(50) (customer project)
-- pn: String(50) (part number)
-- semi_pn: String(100) (semi product part number)
-- detail_info: String(50)
+- cpn: String(50)  // Customer part number
+- proj: String(50)  // Customer project
+- pn: String(50)  // Part number
+- semi_pn: String(100)  // Semi product part number
+- detail_info: Text
+- virtual: Boolean
+- customer: Customer
 
-### Relationships
-- customer_id -> Customer
+## ProductShareVer
+- product1: Product
+- product2: Product
 
-## TestForeignKey
-### Relationships
-- product_id -> Product
+## PDBUProduct
+- rpn: String(50)
+- detail_info: Text
+- ignore_validate_rpn: Boolean
+- bu: BU
+- plant_district: PlantDistrict
+- master_product: Product
+- sub_product: Product
+
+## YieldRate
+- yr_date: Date
+- yr: Float
+- detail_info: Text
+- pdbu_product: PDBUProduct
+
+## PartNum
+- pn: String(20)
+- ver: String(10)
+- pn_create_dt: DateTime
+- change_info: Text
+- pre_part_num: PartNum
+
+## ProcCode
+- p_code: String(10)
+- p_name: String(20)
+- p_normal_lt: Float
+
+## SubProcCode
+- p_code: String(10)
+- p_name: String(20)
+
+## PNLayer
+- layer_code: Integer
+- layer_name: String(20)
+- part_num: PartNum
+- next_pn_layer: PNLayer
+
+## PNLayerProc
+- seq: Integer
+- proc_code_seq: Integer
+- pn_layer: PNLayer
+- proc_code: ProcCode
+- proc_code_old: ProcCode
+
+## PNLayerSProc
+- seq: Integer
+- sub_proc_code_seq: Integer
+- pcs_cnt: Integer
+- detail_info: Text
+- pn_layer_proc: PNLayerProc
+- sub_proc_code: SubProcCode
+
+## User
+- user_name: String(50)
+- password: String(255)
+- name_eng: String(50)
+- name_chn: String(50)
+- is_active: Boolean
+
+## Role
+- name: String(50)
+- description: String(255)
+
+## UserRole
+- user: User
+- role: Role
+
+## Permission
+- name: String(50)
+- description: String(255)
+
+## RolePermission
+- role: Role
+- permission: Permission
+
+## AuditLog
+- action: String(50)
+- details: Text
+- timestamp: DateTime
+- user: User
+
+## UserSession
+- session_created_dt: DateTime
+- session_expires_dt: DateTime
+- last_activity: DateTime
+- user: User
+
+## MenuItem
+- name: String(50)
+- icon: String(50)
+- route: String(100)
+- order: Integer
+- parent: MenuItem
+- is_active: Boolean
+
+## MenuPermission
+- menu_item: MenuItem
+- permission: Permission
