@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from backend_flask.models import User
-from backend_flask import db
+from ..models import User
+from .. import db
 from werkzeug.security import check_password_hash
 import jwt
 from datetime import datetime, timedelta

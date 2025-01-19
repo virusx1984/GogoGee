@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
-from backend_flask.models import User
-from backend_flask.schemas import UserSchema
-from backend_flask import db
+from ..models import User
+from ..schemas import UserSchema
+from .. import db
 
 user_bp = Blueprint('user', __name__, url_prefix='/api/users')
 
