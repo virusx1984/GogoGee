@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Models Visualization</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        table {
+            display: inline-block;
+            vertical-align: top;
+            margin: 0;
+            table-layout: auto;
+            border-collapse: collapse;
+            font-size: 14px;
+            white-space: nowrap;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 0px 5px 0px 5px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f5f5f5;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        .field-name {
+            cursor: pointer;
+            text-decoration: underline dotted;
+            color: #0d6efd;
+            position: relative;
+        }
+        tr.fk-highlight {
+            background-color: #fff3f3;
+        }
+        tr.fk-highlight:hover {
+            background-color: #ffe6e6;
+        }
+        .popover {
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>All Models Visualization</h1>
+
+    <!-- Location Model -->
+    <table>
+        <thead>
+            <tr>
+                <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">Location Model</th>
+            </tr>
+            <tr>
+                <th>Field Name</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="id" data-bs-content="Primary key field, unique identifier">id</span></td>
+                <td>Integer (Primary Key)</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="created_dt" data-bs-content="Timestamp when record was created">created_dt</span></td>
+                <td>DateTime</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="updated_dt" data-bs-content="Timestamp when record was last updated">updated_dt</span></td>
+                <td>DateTime</td>
+            </tr>
+            <tr class="fk-highlight">
+                <td><span class="field-name" data-bs-toggle="popover" title="created_user_id" data-bs-content="Foreign key to User">created_user_id</span></td>
+                <td>FK to User</td>
+            </tr>
+            <tr class="fk-highlight">
+                <td><span class="field-name" data-bs-toggle="popover" title="updated_user_id" data-bs-content="Foreign key to User">updated_user_id</span></td>
+                <td>FK to User</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="country" data-bs-content="Country name">country</span></td>
+                <td>String(100)</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="province" data-bs-content="Province/State name">province</span></td>
+                <td>String(100)</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="city" data-bs-content="City name">city</span></td>
+                <td>String(100)</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="street" data-bs-content="Street name">street</span></td>
+                <td>String(200)</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="address" data-bs-content="Full address">address</span></td>
+                <td>String(200)</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="longitude" data-bs-content="Geographic longitude">longitude</span></td>
+                <td>Float</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="latitude" data-bs-content="Geographic latitude">latitude</span></td>
+                <td>Float</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Company Model -->
+    <table>
+        <thead>
+            <tr>
+                <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">Company Model</th>
+            </tr>
+            <tr>
+                <th>Field Name</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="id" data-bs-content="Primary key field, unique identifier">id</span></td>
+                <td>Integer (Primary Key)</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="created_dt" data-bs-content="Timestamp when record was created">created_dt</span></td>
+                <td>DateTime</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="updated_dt" data-bs-content="Timestamp when record was last updated">updated_dt</span></td>
+                <td>DateTime</td>
+            </tr>
+            <tr class="fk-highlight">
+                <td><span class="field-name" data-bs-toggle="popover" title="created_user_id" data-bs-content="Foreign key to User">created_user_id</span></td>
+                <td>FK to User</td>
+            </tr>
+            <tr class="fk-highlight">
+                <td><span class="field-name" data-bs-toggle="popover" title="updated_user_id" data-bs-content="Foreign key to User">updated_user_id</span></td>
+                <td>FK to User</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="name" data-bs-content="Company name">name</span></td>
+                <td>String(100)</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="code" data-bs-content="Company code">code</span></td>
+                <td>String(50)</td>
+            </tr>
+            <tr class="fk-highlight">
+                <td><span class="field-name" data-bs-toggle="popover" title="location_id" data-bs-content="Foreign key to Location">location_id</span></td>
+                <td>FK to Location</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- BG Model -->
+    <table>
+        <thead>
+            <tr>
+                <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">BG Model</th>
+            </tr>
+            <tr>
+                <th>Field Name</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="id" data-bs-content="Primary key field, unique identifier">id</span></td>
+                <td>Integer (Primary Key)</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="created_dt" data-bs-content="Timestamp when record was created">created_dt</span></td>
+                <td>DateTime</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="updated_dt" data-bs-content="Timestamp when record was last updated">updated_dt</span></td>
+                <td>DateTime</td>
+            </tr>
+            <tr class="fk-highlight">
+                <td><span class="field-name" data-bs-toggle="popover" title="created_user_id" data-bs-content="Foreign key to User">created_user_id</span></td>
+                <td>FK to User</td>
+            </tr>
+            <tr class="fk-highlight">
+                <td><span class="field-name" data-bs-toggle="popover" title="updated_user_id" data-bs-content="Foreign key to User">updated_user_id</span></td>
+                <td>FK to User</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="name" data-bs-content="BG name">name</span></td>
+                <td>String(100)</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="code" data-bs-content="BG code">code</span></td>
+                <td>String(50)</td>
+            </tr>
+            <tr class="fk-highlight">
+                <td><span class="field-name" data-bs-toggle="popover" title="company_id" data-bs-content="Foreign key to Company">company_id</span></td>
+                <td>FK to Company</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- BU Model -->
+    <table>
+        <thead>
+            <tr>
+                <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">BU Model</th>
+            </tr>
+            <tr>
+                <th>Field Name</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="id" data-bs-content="Primary key field, unique identifier">id</span></td>
+                <td>Integer (Primary Key)</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="created_dt" data-bs-content="Timestamp when record was created">created_dt</span></td>
+                <td>DateTime</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="updated_dt" data-bs-content="Timestamp when record was last updated">updated_dt</span></td>
+                <td>DateTime</td>
+            </tr>
+            <tr class="fk-highlight">
+                <td><span class="field-name" data-bs-toggle="popover" title="created_user_id" data-bs-content="Foreign key to User">created_user_id</span></td>
+                <td>FK to User</td>
+            </tr>
+            <tr class="fk-highlight">
+                <td><span class="field-name" data-bs-toggle="popover" title="updated_user_id" data-bs-content="Foreign key to User">updated_user_id</span></td>
+                <td>FK to User</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="name" data-bs-content="BU name">name</span></td>
+                <td>String(100)</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="code" data-bs-content="BU code">code</span></td>
+                <td>String(50)</td>
+            </tr>
+            <tr class="fk-highlight">
+                <td><span class="field-name" data-bs-toggle="popover" title="bg_id" data-bs-content="Foreign key to BG">bg_id</span></td>
+                <td>FK to BG</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- PlantDistrict Model -->
+    <table>
+        <thead>
+            <tr>
+                <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">PlantDistrict Model</th>
+            </tr>
+            <tr>
+                <th>Field Name</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="id" data-bs-content="Primary key field, unique identifier">id</span></td>
+                <td>Integer (Primary Key)</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="created_dt" data-bs-content="Timestamp when record was created">created_dt</span></td>
+                <td>DateTime</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="updated_dt" data-bs-content="Timestamp when record was last updated">updated_dt</span></td>
+                <td>DateTime</td>
+            </tr>
+            <tr class="fk-highlight">
+                <td><span class="field-name" data-bs-toggle="popover" title="created_user_id" data-bs-content="Foreign key to User">created_user_id</span></td>
+                <td>FK to User</td>
+            </tr>
+            <tr class="fk-highlight">
+                <td><span class="field-name" data-bs-toggle="popover" title="updated_user_id" data-bs-content="Foreign key to User">updated_user_id</span></td>
+                <td>FK to User</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="name_eng" data-bs-content="English name">name_eng</span></td>
+                <td>String(50)</td>
+            </tr>
+            <tr>
+                <td><span class="field-name" data-bs-toggle="popover" title="name_chn" data-bs-content="Chinese name">name_chn</span></td>
+                <td>String(50)</td>
+            </tr>
+            <tr class="fk-highlight">
+                <td><span class="field-name" data-bs-toggle="popover" title="company_id" data-bs-content="Foreign key to Company">company_id</span></td>
+                <td>FK to Company</td>
+            </tr>
+            <tr class="fk-highlight">
+                <td><span class="field-name" data-bs-toggle="popover" title="location_id" data-bs-content="Foreign key to Location">location_id</span></td>
+                <td>FK to Location</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Initialize all popovers with hover trigger
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => {
+            return new bootstrap.Popover(popoverTriggerEl, {
+                trigger: 'hover',
+                placement: 'top',
+                container: 'body'
+            })
+        })
+    </script>
+</body>
+</html>

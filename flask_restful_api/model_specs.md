@@ -1,5 +1,12 @@
 # Models Documentation
 
+*Note: All models include these standard fields:*
+- id: Integer(primary_key=True)
+- created_at: DateTime(default=func.now())
+- updated_at: DateTime(default=func.now(), onupdate=func.now())
+- created_user: User(nullable=True)
+- updated_user: User(nullable=True)
+
 ## Location
 - country: String(100, nullable=True)  // Country name (optional)
 - province: String(100, nullable=True)  // Province/state (optional)
@@ -13,7 +20,7 @@
 // A company group that owns many subsidiaries
 - name_eng: String(50, unique=True)  // Required unique English name
 - name_chn: String(50, nullable=True)  // Optional Chinese name
-- location: Location(nullable=True)  // Optional location details
+- location -> Location  // Optional location details
 
 ## BG (Business Group)
 - name_eng: String(50, unique=True)  // Required unique English name
@@ -22,18 +29,18 @@
 ## BU (Business Unit)
 - name_eng: String(50, unique=True)  // Required unique English name
 - name_chn: String(50, nullable=True)  // Optional Chinese name
-- bg: BG(nullable=True)  // Optional business group reference
+- bg -> BG  // Optional business group reference
 
 ## PlantDistrict
 - name_eng: String(50, unique=True)  // Required unique English name
 - name_chn: String(50, nullable=True)  // Optional Chinese name
-- company: Company(nullable=True)  // Optional company reference
-- location: Location(nullable=True)  // Optional location details
+- company -> Company  // Optional company reference
+- location -> Location  // Optional location details
 
 ## Plant
 - plant_code: String(10, unique=True)  // Required unique plant code (e.g. SA03, QA08)
-- plant_district: PlantDistrict(nullable=True)  // Optional plant district reference
-- bu: BU(nullable=True)  // Optional business unit reference
+- plant_district -> PlantDistrict  // Optional plant district reference
+- bu -> BU  // Optional business unit reference
 
 ## Supplier
 - name_eng: String(100)
@@ -44,8 +51,8 @@
 
 ## SupplierPOD (Place of Delivery)
 - alias: String(100)
-- location: Location
-- supplier: Supplier
+- location -> Location
+- supplier -> Supplier
 
 ## CurrencyEx (Currency Exchange)
 - fr_curr: String(10)
@@ -68,9 +75,9 @@
 - verbose_num: Integer  // e.g. Drill machine #1
 - detail_info: Text
 - acuisition_date: Date
-- supplier_pod: SupplierPOD
-- proxy_supplier_pod: SupplierPOD
-- plant: Plant
+- supplier_pod -> SupplierPOD
+- proxy_supplier_pod -> SupplierPOD
+- plant -> Plant
 
 ## Asset
 - num: String(100)
@@ -82,7 +89,7 @@
 - acquisition_price: Float
 - ap_currency: String(10)  // Currency of acquisition price
 - ap_date: Date  // Date of acquisition price
-- machine: Machine
+- machine -> Machine
 
 ## Customer
 - name_eng: String(100)
@@ -94,9 +101,9 @@
 ## ShippingSite
 - name_eng: String(100)
 - name_chn: String(100)  // May be same as English name
-- customer: Customer
-- company: Company
-- location: Location
+- customer -> Customer
+- company -> Company
+- location -> Location
 
 ## Product
 - cpn: String(50)  // Customer part number
@@ -105,33 +112,33 @@
 - semi_pn: String(100)  // Semi product part number
 - detail_info: Text
 - virtual: Boolean
-- customer: Customer
+- customer -> Customer
 
 ## ProductShareVer
-- product1: Product
-- product2: Product
+- product1 -> Product
+- product2 -> Product
 
 ## PDBUProduct
 - rpn: String(50)
 - detail_info: Text
 - ignore_validate_rpn: Boolean
-- bu: BU
-- plant_district: PlantDistrict
-- master_product: Product
-- sub_product: Product
+- bu -> BU
+- plant_district -> PlantDistrict
+- master_product -> Product
+- sub_product -> Product
 
 ## YieldRate
 - yr_date: Date
 - yr: Float
 - detail_info: Text
-- pdbu_product: PDBUProduct
+- pdbu_product -> PDBUProduct
 
 ## PartNum
 - pn: String(20)
 - ver: String(10)
 - pn_create_dt: DateTime
 - change_info: Text
-- pre_part_num: PartNum
+- pre_part_num -> PartNum
 
 ## ProcCode
 - p_code: String(10)
@@ -145,23 +152,23 @@
 ## PNLayer
 - layer_code: Integer
 - layer_name: String(20)
-- part_num: PartNum
-- next_pn_layer: PNLayer
+- part_num -> PartNum
+- next_pn_layer -> PNLayer
 
 ## PNLayerProc
 - seq: Integer
 - proc_code_seq: Integer
-- pn_layer: PNLayer
-- proc_code: ProcCode
-- proc_code_old: ProcCode
+- pn_layer -> PNLayer
+- proc_code -> ProcCode
+- proc_code_old -> ProcCode
 
 ## PNLayerSProc
 - seq: Integer
 - sub_proc_code_seq: Integer
 - pcs_cnt: Integer
 - detail_info: Text
-- pn_layer_proc: PNLayerProc
-- sub_proc_code: SubProcCode
+- pn_layer_proc -> PNLayerProc
+- sub_proc_code -> SubProcCode
 
 ## User
 - user_name: String(50)
@@ -175,37 +182,37 @@
 - description: String(255)
 
 ## UserRole
-- user: User
-- role: Role
+- user -> User
+- role -> Role
 
 ## Permission
 - name: String(50)
 - description: String(255)
 
 ## RolePermission
-- role: Role
-- permission: Permission
+- role -> Role
+- permission -> Permission
 
 ## AuditLog
 - action: String(50)
 - details: Text
 - timestamp: DateTime
-- user: User
+- user -> User
 
 ## UserSession
 - session_created_dt: DateTime
 - session_expires_dt: DateTime
 - last_activity: DateTime
-- user: User
+- user -> User
 
 ## MenuItem
 - name: String(50)
 - icon: String(50)
 - route: String(100)
 - order: Integer
-- parent: MenuItem
+- parent -> MenuItem
 - is_active: Boolean
 
 ## MenuPermission
-- menu_item: MenuItem
-- permission: Permission
+- menu_item -> MenuItem
+- permission -> Permission
