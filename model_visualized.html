@@ -500,6 +500,538 @@
                 </tr>
             </tbody>
         </table>
+        <!-- Asset Model -->
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">
+                        Asset Model</th>
+                </tr>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="machine_id"
+                            data-bs-content="Foreign key to Machine">machine_id</span></td>
+                    <td>FK to Machine</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="num"
+                            data-bs-content="Asset number">num</span></td>
+                    <td>String(100)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="tmp_num"
+                            data-bs-content="Temporary asset number">tmp_num</span></td>
+                    <td>String(100)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="asset_name"
+                            data-bs-content="Asset name">asset_name</span></td>
+                    <td>String(100)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="original_price"
+                            data-bs-content="Original price">original_price</span></td>
+                    <td>Float</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="op_currency"
+                            data-bs-content="Currency of original price">op_currency</span></td>
+                    <td>String(10)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="op_date"
+                            data-bs-content="Date of original price">op_date</span></td>
+                    <td>Date</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="acquisition_price"
+                            data-bs-content="Acquisition price">acquisition_price</span></td>
+                    <td>Float</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="ap_currency"
+                            data-bs-content="Currency of acquisition price">ap_currency</span></td>
+                    <td>String(10)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="ap_date"
+                            data-bs-content="Date of acquisition price">ap_date</span></td>
+                    <td>Date</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Customer Model -->
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">
+                        Customer Model</th>
+                </tr>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="name_eng"
+                            data-bs-content="English name">name_eng</span></td>
+                    <td>String(100)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="name_chn"
+                            data-bs-content="Chinese name">name_chn</span></td>
+                    <td>String(100)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="region"
+                            data-bs-content="Headquarters location">region</span></td>
+                    <td>String(200)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="web_site"
+                            data-bs-content="Company website">web_site</span></td>
+                    <td>String(200)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="detail_info"
+                            data-bs-content="Additional information">detail_info</span></td>
+                    <td>Text</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- ShippingSite Model -->
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">
+                        ShippingSite Model</th>
+                </tr>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="name_eng"
+                            data-bs-content="English name">name_eng</span></td>
+                    <td>String(100)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="name_chn"
+                            data-bs-content="Chinese name">name_chn</span></td>
+                    <td>String(100)</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="customer_id"
+                            data-bs-content="Foreign key to Customer">customer_id</span></td>
+                    <td>FK to Customer</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="company_id"
+                            data-bs-content="Foreign key to Company">company_id</span></td>
+                    <td>FK to Company</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="location_id"
+                            data-bs-content="Foreign key to Location">location_id</span></td>
+                    <td>FK to Location</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Product Model -->
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">
+                        Product Model</th>
+                </tr>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="cpn"
+                            data-bs-content="Customer part number">cpn</span></td>
+                    <td>String(50)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="proj"
+                            data-bs-content="Customer project">proj</span></td>
+                    <td>String(50)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="pn"
+                            data-bs-content="Part number">pn</span></td>
+                    <td>String(50)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="semi_pn"
+                            data-bs-content="Semi product part number">semi_pn</span></td>
+                    <td>String(100)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="detail_info"
+                            data-bs-content="Additional information">detail_info</span></td>
+                    <td>Text</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="virtual"
+                            data-bs-content="Virtual product flag">virtual</span></td>
+                    <td>Boolean</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="customer_id"
+                            data-bs-content="Foreign key to Customer">customer_id</span></td>
+                    <td>FK to Customer</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- ProductShareVer Model -->
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">
+                        ProductShareVer Model</th>
+                </tr>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="product1_id"
+                            data-bs-content="Foreign key to Product">product1_id</span></td>
+                    <td>FK to Product</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="product2_id"
+                            data-bs-content="Foreign key to Product">product2_id</span></td>
+                    <td>FK to Product</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- PDBUProduct Model -->
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">
+                        PDBUProduct Model</th>
+                </tr>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="rpn" 
+                            data-bs-content="Reference part number">rpn</span></td>
+                    <td>String(50)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="detail_info" 
+                            data-bs-content="Additional information">detail_info</span></td>
+                    <td>Text</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="ignore_validate_rpn" 
+                            data-bs-content="Ignore RPN validation flag">ignore_validate_rpn</span></td>
+                    <td>Boolean</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="bu_id" 
+                            data-bs-content="Foreign key to BU">bu_id</span></td>
+                    <td>FK to BU</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="plant_district_id" 
+                            data-bs-content="Foreign key to PlantDistrict">plant_district_id</span></td>
+                    <td>FK to PlantDistrict</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="master_product_id" 
+                            data-bs-content="Foreign key to Product">master_product_id</span></td>
+                    <td>FK to Product</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="sub_product_id" 
+                            data-bs-content="Foreign key to Product">sub_product_id</span></td>
+                    <td>FK to Product</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- YieldRate Model -->
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">
+                        YieldRate Model</th>
+                </tr>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="yr_date" 
+                            data-bs-content="Yield rate date">yr_date</span></td>
+                    <td>Date</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="yr" 
+                            data-bs-content="Yield rate value">yr</span></td>
+                    <td>Float</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="detail_info" 
+                            data-bs-content="Additional information">detail_info</span></td>
+                    <td>Text</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="pdbu_product_id" 
+                            data-bs-content="Foreign key to PDBUProduct">pdbu_product_id</span></td>
+                    <td>FK to PDBUProduct</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- PartNum Model -->
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">
+                        PartNum Model</th>
+                </tr>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="pn" 
+                            data-bs-content="Part number">pn</span></td>
+                    <td>String(20)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="ver" 
+                            data-bs-content="Version">ver</span></td>
+                    <td>String(10)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="pn_create_dt" 
+                            data-bs-content="Part number creation date">pn_create_dt</span></td>
+                    <td>DateTime</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="change_info" 
+                            data-bs-content="Change information">change_info</span></td>
+                    <td>Text</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="pre_part_num_id" 
+                            data-bs-content="Foreign key to previous PartNum">pre_part_num_id</span></td>
+                    <td>FK to PartNum</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- PNLayer Model -->
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">
+                        PNLayer Model</th>
+                </tr>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="layer_code" 
+                            data-bs-content="Layer code">layer_code</span></td>
+                    <td>Integer</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="layer_name" 
+                            data-bs-content="Layer name">layer_name</span></td>
+                    <td>String(20)</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="part_num_id" 
+                            data-bs-content="Foreign key to PartNum">part_num_id</span></td>
+                    <td>FK to PartNum</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="next_pn_layer_id" 
+                            data-bs-content="Foreign key to next PNLayer">next_pn_layer_id</span></td>
+                    <td>FK to PNLayer</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- ProcCode Model -->
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">
+                        ProcCode Model</th>
+                </tr>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="p_code" 
+                            data-bs-content="Process code">p_code</span></td>
+                    <td>String(10)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="p_name" 
+                            data-bs-content="Process name">p_name</span></td>
+                    <td>String(20)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="p_normal_lt" 
+                            data-bs-content="Normal lead time">p_normal_lt</span></td>
+                    <td>Float</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- SubProcCode Model -->
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">
+                        SubProcCode Model</th>
+                </tr>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="p_code" 
+                            data-bs-content="Process code">p_code</span></td>
+                    <td>String(10)</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="p_name" 
+                            data-bs-content="Process name">p_name</span></td>
+                    <td>String(20)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- PNLayerProc Model -->
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">
+                        PNLayerProc Model</th>
+                </tr>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="seq" 
+                            data-bs-content="Sequence number">seq</span></td>
+                    <td>Integer</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="proc_code_seq" 
+                            data-bs-content="Process code sequence">proc_code_seq</span></td>
+                    <td>Integer</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="pn_layer_id" 
+                            data-bs-content="Foreign key to PNLayer">pn_layer_id</span></td>
+                    <td>FK to PNLayer</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="proc_code_id" 
+                            data-bs-content="Foreign key to ProcCode">proc_code_id</span></td>
+                    <td>FK to ProcCode</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="proc_code_old_id" 
+                            data-bs-content="Foreign key to old ProcCode">proc_code_old_id</span></td>
+                    <td>FK to ProcCode</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- PNLayerSProc Model -->
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align: center; background-color: #e9ecef; font-size: 1em; padding: 8px;">
+                        PNLayerSProc Model</th>
+                </tr>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="seq" 
+                            data-bs-content="Sequence number">seq</span></td>
+                    <td>Integer</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="sub_proc_code_seq" 
+                            data-bs-content="Sub process code sequence">sub_proc_code_seq</span></td>
+                    <td>Integer</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="pcs_cnt" 
+                            data-bs-content="Piece count">pcs_cnt</span></td>
+                    <td>Integer</td>
+                </tr>
+                <tr>
+                    <td><span class="field-name" data-bs-toggle="popover" title="detail_info" 
+                            data-bs-content="Additional information">detail_info</span></td>
+                    <td>Text</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="pn_layer_proc_id" 
+                            data-bs-content="Foreign key to PNLayerProc">pn_layer_proc_id</span></td>
+                    <td>FK to PNLayerProc</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="sub_proc_code_id" 
+                            data-bs-content="Foreign key to SubProcCode">sub_proc_code_id</span></td>
+                    <td>FK to SubProcCode</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -513,24 +1045,58 @@
             })
         })
 
-        // Add search functionality
+        // Add model name search functionality
         const searchInput = document.getElementById('modelSearch');
         const tables = document.querySelectorAll('table');
 
         searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
+            const searchTerm = e.target.value.trim();
+            
+            try {
+                // Create regex from search term, case insensitive
+                const regex = new RegExp(searchTerm, 'i');
+                
+                tables.forEach(table => {
+                    const modelName = table.querySelector('th').textContent;
+                    const rows = table.querySelectorAll('tbody tr');
 
-            tables.forEach(table => {
-                const modelName = table.querySelector('th').textContent.toLowerCase();
+                    // Check if model name matches
+                    if (regex.test(modelName)) {
+                        table.style.display = 'inline-block';
+                        // Show all rows
+                        rows.forEach(row => row.style.display = '');
+                    } else {
+                        table.style.display = 'none';
+                    }
+                });
 
-                // Show/hide table based on model name match
-                if (modelName.includes(searchTerm)) {
-                    table.style.display = 'inline-block';
-                } else {
-                    table.style.display = 'none';
+                // Clear any previous error styling
+                searchInput.classList.remove('is-invalid');
+            } catch (error) {
+                // Handle invalid regex patterns
+                if (error instanceof SyntaxError) {
+                    searchInput.classList.add('is-invalid');
                 }
-            });
+            }
         });
+
+        // Add CSS for invalid regex input
+        const style = document.createElement('style');
+        style.textContent = `
+            .is-invalid {
+                border-color: #dc3545 !important;
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+                background-repeat: no-repeat;
+                background-position: right calc(0.375em + 0.1875rem) center;
+                background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+            }
+            .bg-warning {
+                background-color: #ffc107;
+                padding: 2px;
+                border-radius: 3px;
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 

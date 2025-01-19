@@ -170,6 +170,13 @@
 - pn_layer_proc -> PNLayerProc
 - sub_proc_code -> SubProcCode
 
+## Material
+- mpn: String(20) // material part number
+- mtype: String(10) // material type
+- supplier -> Supplier
+- mdesc: String(50) // material description
+- munit: String(10) // material unit
+
 ## User
 - user_name: String(50)
 - password: String(255)
@@ -216,3 +223,4 @@
 ## MenuPermission
 - menu_item -> MenuItem
 - permission -> Permission
+

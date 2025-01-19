@@ -39,7 +39,7 @@ class Company(db.Model):
     updated_user = relationship('User', foreign_keys=[updated_user_id])
 
     name_eng = Column(String(50))
-    name_chn = Column(String(50), comment = 'maybe there is no chinese name, just let it equals to english name')
+    name_chn = Column(String(50), comment='If there is no Chinese name, it will default to the English name.')
 
     location_id = Column(Integer, ForeignKey('oog_location.id'))
     location = relationship('Location')
@@ -59,7 +59,7 @@ class BG(db.Model):
     created_user = relationship('User', foreign_keys=[created_user_id])
     updated_user = relationship('User', foreign_keys=[updated_user_id])
     name_eng = Column(String(50))
-    name_chn = Column(String(50), comment = 'maybe there is no chinese name, just let it equals to english name')
+    name_chn = Column(String(50), comment='If there is no Chinese name, it will default to the English name.')
 
     def __repr__(self):
         return f'<BG {self.name_eng}>'
@@ -76,7 +76,7 @@ class BU(db.Model):
     created_user = relationship('User', foreign_keys=[created_user_id])
     updated_user = relationship('User', foreign_keys=[updated_user_id])
     name_eng = Column(String(50))
-    name_chn = Column(String(50), comment = 'maybe there is no chinese name, just let it equals to english name')
+    name_chn = Column(String(50), comment='If there is no Chinese name, it will default to the English name.')
 
     bg_id = Column(Integer, ForeignKey('oog_bg.id'))
     bg = relationship('BG')
@@ -721,3 +721,25 @@ class MenuPermission(db.Model):
     
     def __repr__(self):
         return f'<MenuPermission {self.id}>'
+
+class Material(db.Model):
+    __tablename__ = 'oog_material'
+    __table_args__ = {'comment': 'Material information'}
+    
+    id = Column(Integer, primary_key=True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    mpn = Column(String(20), comment='Material part number')
+    mtype = Column(String(10), comment='Material type')
+    supplier_id = Column(Integer, ForeignKey('oog_supplier.id'))
+    supplier = relationship('Supplier')
+    mdesc = Column(String(50), comment='Material description')
+    munit = Column(String(10), comment='Material unit')
+    
+    def __repr__(self):
+        return f'<Material {self.mpn}>'
