@@ -207,10 +207,10 @@ class Machine(db.Model):
     updated_user = relationship('User', foreign_keys=[updated_user_id])
 
     supplier_pod_id = Column(Integer, ForeignKey('oog_supplier_pod.id'))
-    supplier_pod = relationship('SupplierPOD')
+    supplier_pod = relationship('SupplierPOD', foreign_keys=[supplier_pod_id])
 
     proxy_supplier_pod_id = Column(Integer, ForeignKey('oog_supplier_pod.id'))
-    proxy_supplier_pod = relationship('SupplierPOD')
+    proxy_supplier_pod = relationship('SupplierPOD', foreign_keys=[proxy_supplier_pod_id])
 
     plant_id = Column(Integer, ForeignKey('oog_plant.id'))
     plant = relationship('Plant')
@@ -508,7 +508,7 @@ class PNLayerProc(db.Model):
     pn_layer = relationship('PNLayer')
     
     proc_code_id = Column(Integer, ForeignKey('oog_proc_code.id'))
-    proc_code = relationship('ProcCode')
+    proc_code = relationship('ProcCode', foreign_keys=[proc_code_id])
     
     proc_code_old_id = Column(Integer, ForeignKey('oog_proc_code.id'))
     proc_code_old = relationship('ProcCode', foreign_keys=[proc_code_old_id])
@@ -584,17 +584,18 @@ class User(db.Model):
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'), nullable=True)
+    created_user = relationship('User', foreign_keys=[created_user_id])
     updated_user_id = Column(Integer, ForeignKey('oog_user.id'), nullable=True)
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+
     user_name = Column(String(50), unique=True, nullable=False)
     password = Column(String(255), nullable=False)
     name_eng = Column(String(50))
     name_chn = Column(String(50))
     is_active = Column(Boolean, default=True)
+    is_admin = Column(Boolean, default=False)
     
-    roles = relationship('Role', secondary='oog_user_role')
-    created_user = relationship('User', foreign_keys=[created_user_id])
-    updated_user = relationship('User', foreign_keys=[updated_user_id])
-
+    
     def __repr__(self):
         return f'<User {self.user_name}>'
 
@@ -633,27 +634,6 @@ class RolePermission(db.Model):
     
     def __repr__(self):
         return f'<RolePermission {self.id}>'
-
-class UserSession(db.Model):
-    __tablename__ = 'oog_user_session'
-    
-    id = Column(Integer, primary_key = True)
-    created_dt = Column(DateTime, default=func.now())
-    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
-    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
-    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
-    created_user = relationship('User', foreign_keys=[created_user_id])
-    updated_user = relationship('User', foreign_keys=[updated_user_id])
-    
-    session_created_dt = Column(DateTime, default=func.now())
-    session_expires_dt = Column(DateTime)
-    last_activity = Column(DateTime, default=func.now())
-    
-    user_id = Column(Integer, ForeignKey('oog_user.id'))
-    user = relationship('User')
-    
-    def __repr__(self):
-        return f'<UserSession {self.id}>'
 
 class Material(db.Model):
     __tablename__ = 'oog_material'

@@ -2,8 +2,8 @@
 
 *Note: All models include these standard fields:*
 - id: Integer(primary_key=True)
-- created_at: DateTime(default=func.now())
-- updated_at: DateTime(default=func.now(), onupdate=func.now())
+- created_dt: DateTime(default=func.now())
+- updated_dt: DateTime(default=func.now(), onupdate=func.now())
 - created_user: User(nullable=True)
 - updated_user: User(nullable=True)
 
@@ -189,6 +189,7 @@
 - name_eng: String(50)
 - name_chn: String(50)
 - is_active: Boolean
+- is_admin: Boolean
 
 ## Role
 - name: String(50)
@@ -205,13 +206,6 @@
 ## RolePermission
 - role -> Role
 - permission -> Permission
-
-
-## UserSession
-- session_created_dt: DateTime
-- session_expires_dt: DateTime
-- last_activity: DateTime
-- user -> User
 
 
 
