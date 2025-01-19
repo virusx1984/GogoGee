@@ -170,12 +170,18 @@
 - pn_layer_proc -> PNLayerProc
 - sub_proc_code -> SubProcCode
 
+
 ## Material
 - mpn: String(20) // material part number
 - mtype: String(10) // material type
-- supplier -> Supplier
+- supplier_pod -> SupplierPOD
 - mdesc: String(50) // material description
 - munit: String(10) // material unit
+
+## SProcMaterial
+- pn_layer_sproc -> PNLayerSProc
+- material -> Material
+- qpa: Float // Quantity Per Assembly, pcs base, like SH/PCS, SF/PCS, KG/PCS, according to the munit in Material
 
 ## User
 - user_name: String(50)
@@ -200,11 +206,6 @@
 - role -> Role
 - permission -> Permission
 
-## AuditLog
-- action: String(50)
-- details: Text
-- timestamp: DateTime
-- user -> User
 
 ## UserSession
 - session_created_dt: DateTime
@@ -212,15 +213,5 @@
 - last_activity: DateTime
 - user -> User
 
-## MenuItem
-- name: String(50)
-- icon: String(50)
-- route: String(100)
-- order: Integer
-- parent -> MenuItem
-- is_active: Boolean
 
-## MenuPermission
-- menu_item -> MenuItem
-- permission -> Permission
 

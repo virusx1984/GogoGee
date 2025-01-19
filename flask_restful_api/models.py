@@ -166,8 +166,8 @@ class SupplierPOD(db.Model):
     location_id = Column(Integer, ForeignKey('oog_location.id'))
     location = relationship('Location')
 
-    supplier_id = Column(Integer, ForeignKey('oog_supplier.id'))
-    supplier = relationship('Supplier')
+    supplier_pod_id = Column(Integer, ForeignKey('oog_supplier_pod.id'))
+    supplier_pod = relationship('SupplierPOD')
 
     def __repr__(self):
         return f'<Supplier {self.alias}>'
@@ -634,27 +634,6 @@ class RolePermission(db.Model):
     def __repr__(self):
         return f'<RolePermission {self.id}>'
 
-class AuditLog(db.Model):
-    __tablename__ = 'oog_audit_log'
-    
-    id = Column(Integer, primary_key = True)
-    created_dt = Column(DateTime, default=func.now())
-    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
-    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
-    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
-    created_user = relationship('User', foreign_keys=[created_user_id])
-    updated_user = relationship('User', foreign_keys=[updated_user_id])
-    
-    action = Column(String(50))
-    details = Column(Text)
-    timestamp = Column(DateTime, default=func.now())
-    
-    user_id = Column(Integer, ForeignKey('oog_user.id'))
-    user = relationship('User')
-    
-    def __repr__(self):
-        return f'<AuditLog {self.action}>'
-
 class UserSession(db.Model):
     __tablename__ = 'oog_user_session'
     
@@ -676,52 +655,6 @@ class UserSession(db.Model):
     def __repr__(self):
         return f'<UserSession {self.id}>'
 
-class MenuItem(db.Model):
-    __tablename__ = 'oog_menu_item'
-    __table_args__ = {'comment': 'Represents a single menu item in the hierarchical menu system'}
-    
-    id = Column(Integer, primary_key=True)
-    created_dt = Column(DateTime, default=func.now())
-    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
-    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
-    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
-    created_user = relationship('User', foreign_keys=[created_user_id])
-    updated_user = relationship('User', foreign_keys=[updated_user_id])
-    
-    name = Column(String(50), comment='menu item name')
-    icon = Column(String(50), comment='optional icon class')
-    route = Column(String(100), comment='route path')
-    order = Column(Integer, comment='display order')
-    parent_id = Column(Integer, ForeignKey('oog_menu_item.id'), comment='foreign key to parent menu item')
-    is_active = Column(Boolean, default=True, comment='controls visibility')
-    
-    children = relationship('MenuItem')
-    permissions = relationship('MenuPermission')
-    
-    def __repr__(self):
-        return f'<MenuItem {self.name}>'
-
-class MenuPermission(db.Model):
-    __tablename__ = 'oog_menu_permission'
-    __table_args__ = {'comment': 'Links menu items to permissions'}
-    
-    id = Column(Integer, primary_key=True)
-    created_dt = Column(DateTime, default=func.now())
-    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
-    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
-    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
-    created_user = relationship('User', foreign_keys=[created_user_id])
-    updated_user = relationship('User', foreign_keys=[updated_user_id])
-    
-    menu_item_id = Column(Integer, ForeignKey('oog_menu_item.id'))
-    menu_item = relationship('MenuItem')
-    
-    permission_id = Column(Integer, ForeignKey('oog_permission.id'))
-    permission = relationship('Permission')
-    
-    def __repr__(self):
-        return f'<MenuPermission {self.id}>'
-
 class Material(db.Model):
     __tablename__ = 'oog_material'
     __table_args__ = {'comment': 'Material information'}
@@ -736,10 +669,34 @@ class Material(db.Model):
     
     mpn = Column(String(20), comment='Material part number')
     mtype = Column(String(10), comment='Material type')
-    supplier_id = Column(Integer, ForeignKey('oog_supplier.id'))
-    supplier = relationship('Supplier')
+    supplier_pod_id = Column(Integer, ForeignKey('oog_supplier_pod.id'))
+    supplier_pod = relationship('SupplierPOD')
     mdesc = Column(String(50), comment='Material description')
     munit = Column(String(10), comment='Material unit')
     
     def __repr__(self):
         return f'<Material {self.mpn}>'
+
+
+class SProcMaterial(db.Model):
+    __tablename__ = 'oog_sproc_material'
+    __table_args__ = {'comment': 'Material usage in sub-processes'}
+    
+    id = Column(Integer, primary_key=True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    pn_layer_sproc_id = Column(Integer, ForeignKey('oog_pn_layer_sproc.id'))
+    pn_layer_sproc = relationship('PNLayerSProc')
+    
+    material_id = Column(Integer, ForeignKey('oog_material.id'))
+    material = relationship('Material')
+    
+    qpa = Column(Float, comment='Quantity Per Assembly (pcs base, like SH/PCS, SF/PCS, KG/PCS)')
+    
+    def __repr__(self):
+        return f'<SProcMaterial {self.id}>'
