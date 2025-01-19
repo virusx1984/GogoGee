@@ -1,7 +1,7 @@
 // Fetch and display users
 async function fetchUsers() {
     try {
-        const response = await fetch('/api/users');
+        const response = await fetch('http://127.0.0.1:5000/api/users');
         if (!response.ok) {
             throw new Error('Failed to fetch users');
         }
@@ -18,9 +18,6 @@ async function fetchUsers() {
                 <td>${user.id}</td>
                 <td>${user.username}</td>
                 <td>${user.email}</td>
-                <td>
-                    <button onclick="deleteUser(${user.id})">Delete</button>
-                </td>
             `;
             tbody.appendChild(row);
         });
@@ -38,12 +35,11 @@ async function addUser(event) {
 
     const user = {
         username: formData.get('username'),
-        email: formData.get('email'),
-        password: formData.get('password')
+        email: formData.get('email')
     };
 
     try {
-        const response = await fetch('/api/users', {
+        const response = await fetch('http://127.0.0.1:5000/api/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -62,24 +58,6 @@ async function addUser(event) {
         fetchUsers();
     } catch (error) {
         console.error('Error adding user:', error);
-    }
-}
-
-// Delete a user
-async function deleteUser(userId) {
-    try {
-        const response = await fetch(`/api/users/${userId}`, {
-            method: 'DELETE'
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to delete user');
-        }
-
-        // Refresh the user list
-        fetchUsers();
-    } catch (error) {
-        console.error('Error deleting user:', error);
     }
 }
 

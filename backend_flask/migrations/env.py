@@ -1,3 +1,11 @@
+import os
+import sys
+from pathlib import Path
+
+# Add the project root directory to Python path
+root_path = Path(__file__).parents[1]
+sys.path.append(str(root_path))
+
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config

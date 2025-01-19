@@ -1,9 +1,7 @@
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, func, Date, DateTime, Float, Text, Enum, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from datetime import datetime
-
-db = SQLAlchemy()
+from backend_flask import db
 
 class Location(db.Model):
     __tablename__ = 'oog_location'
@@ -577,6 +575,8 @@ class UserRole(db.Model):
     def __repr__(self):
         return f'<UserRole {self.id}>'
 
+from werkzeug.security import generate_password_hash, check_password_hash
+
 class User(db.Model):
     __tablename__ = 'oog_user'
 
@@ -589,12 +589,22 @@ class User(db.Model):
     updated_user = relationship('User', foreign_keys=[updated_user_id])
 
     user_name = Column(String(50), unique=True, nullable=False)
-    password = Column(String(255), nullable=False)
+    password_hash = Column(String(255), nullable=False)
     name_eng = Column(String(50))
     name_chn = Column(String(50))
     is_active = Column(Boolean, default=True)
     is_admin = Column(Boolean, default=False)
     
+    @property
+    def password(self):
+        raise AttributeError('password is not a readable attribute')
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
     
     def __repr__(self):
         return f'<User {self.user_name}>'
