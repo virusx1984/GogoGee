@@ -6,10 +6,10 @@ from sqlalchemy import pool
 import os
 import sys
 # Add project root to Python path
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..'))
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
 sys.path.insert(0, project_root)
-print(f"Project root added to sys.path: {project_root}")
-print(f"Current sys.path: {sys.path}")
+# print(f"Project root added to sys.path: {project_root}")
+# print(f"Current sys.path: {sys.path}")
 
 from alembic import context
 
@@ -26,7 +26,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from GogoGee.backend_flask.models import db # Import your db object
+from backend_flask.models import db # Import your db object
 
 target_metadata = db.Model.metadata
 

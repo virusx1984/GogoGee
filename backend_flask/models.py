@@ -1,7 +1,10 @@
 from sqlalchemy import Column, Integer, String, func, Date, DateTime, Float, Text, Enum, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from . import db
+from flask_sqlalchemy import SQLAlchemy
+
+# Initialize extensions
+db = SQLAlchemy()
 
 class Location(db.Model):
     __tablename__ = 'oog_location'
