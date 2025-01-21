@@ -184,7 +184,7 @@
 - qpa: Float // Quantity Per Assembly, pcs base, like SH/PCS, SF/PCS, KG/PCS, according to the munit in Material
 
 ## User
-- user_name: String(50)
+- username: String(50)
 - password: String(255)
 - name_eng: String(50)
 - name_chn: String(50)

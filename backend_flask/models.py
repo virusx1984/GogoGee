@@ -591,7 +591,7 @@ class User(db.Model):
     updated_user_id = Column(Integer, ForeignKey('oog_user.id'), nullable=True)
     updated_user = relationship('User', foreign_keys=[updated_user_id])
 
-    user_name = Column(String(50), unique=True, nullable=False)
+    username = Column(String(50), unique=True, nullable=False)
     password_hash = Column(String(255), nullable=False)
     name_eng = Column(String(50))
     name_chn = Column(String(50))
@@ -610,7 +610,7 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
     
     def __repr__(self):
-        return f'<User {self.user_name}>'
+        return f'<User {self.username}>'
 
 class Permission(db.Model):
     __tablename__ = 'oog_permission'
