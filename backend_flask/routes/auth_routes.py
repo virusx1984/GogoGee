@@ -5,6 +5,7 @@ from werkzeug.security import check_password_hash
 import jwt
 from datetime import datetime, timedelta
 from functools import wraps
+import pdb # TODO: remove
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
@@ -36,8 +37,10 @@ def token_required(f):
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
+    pdb.set_trace() # TODO: Remove end debug
     try:
         data = request.get_json()
+        
         if not data or not data.get('username') or not data.get('password'):
             return jsonify({
                 'success': False,

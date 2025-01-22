@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, func, Date, DateTime, Float, Text, Enum, ForeignKey, Boolean
+from sqlalchemy import Column, Integer, String, func, Date, DateTime, Float, Text, Enum, ForeignKey, Boolean, Sequence
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
@@ -9,7 +9,7 @@ db = SQLAlchemy()
 class Location(db.Model):
     __tablename__ = 'oog_location'
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_location_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -24,6 +24,7 @@ class Location(db.Model):
     longitude = Column(Float)
     latitude = Column(Float)
 
+
     def __repr__(self):
         return f'<Location {self.address}>'
     
@@ -31,7 +32,7 @@ class Company(db.Model):
     __tablename__ = 'oog_company'
     __table_args__ = {'comment': 'a company group that owns many subsidiaries'}
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_company_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -45,6 +46,8 @@ class Company(db.Model):
     location_id = Column(Integer, ForeignKey('oog_location.id'))
     location = relationship('Location')
 
+
+
     def __repr__(self):
         return f'<Company {self.name_eng}>'
 
@@ -52,7 +55,7 @@ class BG(db.Model):
     __tablename__ = 'oog_bg'
     __table_args__ = {'comment': 'Business Group (BG1, BG2, BG3 etc)'}
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_bg_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -69,7 +72,7 @@ class BU(db.Model):
     __tablename__ = 'oog_bu'
     __table_args__ = {'comment': 'Business Unit (HDI, FPC, MSAP, RPCB, BTK etc)'}
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_bu_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -89,7 +92,7 @@ class PlantDistrict(db.Model):
     __tablename__ = 'oog_plant_district'
     __table_args__ = {'comment': 'place where many plants located (SA, SB, HA, HB, QA etc)'}
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_plant_district_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -112,7 +115,7 @@ class Plant(db.Model):
     __tablename__ = 'oog_plant'
     __table_args__ = {'comment': 'specific building of a factory (SA03, SA02)'}
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_plant_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -134,7 +137,7 @@ class Supplier(db.Model):
     __tablename__ = 'oog_supplier'
     __table_args__ = {'comment': 'machine, material, and outsourcing suppliers'}
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_supplier_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -154,7 +157,7 @@ class SupplierPOD(db.Model):
     __tablename__ = 'oog_supplier_pod'
     __table_args__ = {'comment': 'Place of Delivery (supplier may have multiple delivery places)'}
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_supplier_pod_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -178,7 +181,7 @@ class CurrencyEx(db.Model):
     __tablename__ = 'oog_currency_ex'
     __table_args__ = {'comment': 'currency exchange rate data'}
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_currency_ex_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -199,7 +202,7 @@ class Machine(db.Model):
     __tablename__ = 'oog_machine'
     __table_args__ = {'comment': 'the meta data of each machine'}
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_machine_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -240,7 +243,7 @@ class Asset(db.Model):
     __tablename__ = 'oog_asset'
     __table_args__ = {'comment': 'one machine may have more than one asset'}
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_asset_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -268,7 +271,7 @@ class Customer(db.Model):
     __tablename__ = 'oog_customer'
     __table_args__ = {'comment': 'company group can be a customer'}
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_customer_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -288,7 +291,7 @@ class ShippingSite(db.Model):
     __tablename__ = 'oog_shipping_site'
     __table_args__ = {'comment': 'customer may have multiple receiving sites'}
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_shipping_site_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -316,7 +319,7 @@ class Product(db.Model):
     __tablename__ = 'oog_product'
     __table_args__ = {'comment': 'includes semi-products'}
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_product_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -341,7 +344,7 @@ class ProductShareVer(db.Model):
     __tablename__ = 'oog_product_share_ver'
     __table_args__ = {'comment': 'share version'}
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_product_share_ver_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -361,7 +364,7 @@ class ProductShareVer(db.Model):
 class PDBUProduct(db.Model):
     __tablename__ = 'oog_pdbu_product'
     
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_pdbu_product_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -392,7 +395,7 @@ class YieldRate(db.Model):
     __tablename__ = 'oog_yield_rate'
     __table_args__ = {'comment': 'yield rate data'}
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_yield_rate_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -414,7 +417,7 @@ class PartNum(db.Model):
     __tablename__ = 'oog_part_num'
     __table_args__ = {'comment': 'part number version tracking'}
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_part_num_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -436,7 +439,7 @@ class PartNum(db.Model):
 class PNLayer(db.Model):
     __tablename__ = 'oog_pn_layer'
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_pn_layer_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -459,7 +462,7 @@ class PNLayer(db.Model):
 class ProcCode(db.Model):
     __tablename__ = 'oog_proc_code'
     
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_proc_code_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -477,7 +480,7 @@ class ProcCode(db.Model):
 class SubProcCode(db.Model):
     __tablename__ = 'oog_sub_proc_code'
     
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_sub_proc_code_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -494,7 +497,7 @@ class SubProcCode(db.Model):
 class PNLayerProc(db.Model):
     __tablename__ = 'oog_pn_layer_proc'
     
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_pn_layer_proc_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -520,7 +523,7 @@ class PNLayerProc(db.Model):
 class PNLayerSProc(db.Model):
     __tablename__ = 'oog_pn_layer_sproc'
     
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_pn_layer_sproc_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -545,7 +548,7 @@ class PNLayerSProc(db.Model):
 class Role(db.Model):
     __tablename__ = 'oog_role'
     
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_role_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -561,7 +564,7 @@ class Role(db.Model):
 class UserRole(db.Model):
     __tablename__ = 'oog_user_role'
     
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_user_role_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -583,7 +586,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 class User(db.Model):
     __tablename__ = 'oog_user'
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_user_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'), nullable=True)
@@ -615,7 +618,7 @@ class User(db.Model):
 class Permission(db.Model):
     __tablename__ = 'oog_permission'
     
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_permission_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -631,7 +634,7 @@ class Permission(db.Model):
 class RolePermission(db.Model):
     __tablename__ = 'oog_role_permission'
     
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, Sequence('oog_role_permission_id_seq'), primary_key = True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -652,7 +655,7 @@ class Material(db.Model):
     __tablename__ = 'oog_material'
     __table_args__ = {'comment': 'Material information'}
     
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, Sequence('oog_material_id_seq'), primary_key=True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))
@@ -675,7 +678,7 @@ class SProcMaterial(db.Model):
     __tablename__ = 'oog_sproc_material'
     __table_args__ = {'comment': 'Material usage in sub-processes'}
     
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, Sequence('oog_sproc_material_id_seq'), primary_key=True)
     created_dt = Column(DateTime, default=func.now())
     updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
     created_user_id = Column(Integer, ForeignKey('oog_user.id'))

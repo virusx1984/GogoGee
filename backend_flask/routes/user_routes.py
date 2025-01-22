@@ -5,9 +5,10 @@ from ..models import db
 
 user_bp = Blueprint('user', __name__, url_prefix='/api/users')
 
-# Initialize Marshmallow schemas
-user_schema = UserSchema()
-users_schema = UserSchema(many=True)
+# Initialize Marshmallow schemas with session
+from ..models import db
+user_schema = UserSchema(session=db.session)
+users_schema = UserSchema(many=True, session=db.session)
 
 @user_bp.route('/', methods=['GET'])
 def get_users():
@@ -44,7 +45,13 @@ def add_user():
 
         new_user = User(
             username=data['username'],
-            password=data['password']  # TODO: Hash password before saving
+            password=data['password'],  # Will be hashed by User model
+            name_eng=data.get('name_eng', ''),
+            name_chn=data.get('name_chn', ''),
+            is_active=data.get('is_active', True),
+            is_admin=data.get('is_admin', False),
+            created_user_id=None,  # TODO: Set to current user ID
+            updated_user_id=None   # TODO: Set to current user ID
         )
         
         db.session.add(new_user)

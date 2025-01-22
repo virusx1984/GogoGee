@@ -167,10 +167,14 @@ class UserRoleSchema(SQLAlchemyAutoSchema):
         load_instance = True
 
 class UserSchema(SQLAlchemyAutoSchema):
+    # Define a password field for input/output
+    password = fields.String(required=True, load_only=True)  # load_only means it won't be included in serialized output
+    
     class Meta:
         model = User
         include_relationships = True
         load_instance = True
+        exclude = ('password_hash',)  # Exclude password_hash from the schema
 
 class PermissionSchema(SQLAlchemyAutoSchema):
     class Meta:
