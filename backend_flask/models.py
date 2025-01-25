@@ -593,7 +593,7 @@ class User(db.Model):
     created_user = relationship('User', foreign_keys=[created_user_id])
     updated_user_id = Column(Integer, ForeignKey('oog_user.id'), nullable=True)
     updated_user = relationship('User', foreign_keys=[updated_user_id])
-
+    
     username = Column(String(50), unique=True, nullable=False)
     password_hash = Column(String(255), nullable=False)
     name_eng = Column(String(50))

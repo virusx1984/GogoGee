@@ -1,11 +1,10 @@
 from flask import Blueprint, request, jsonify
 from ..models import User
 from ..models import db
-from werkzeug.security import check_password_hash
 import jwt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from functools import wraps
-import pdb # TODO: remove
+
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
@@ -37,7 +36,7 @@ def token_required(f):
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
-    pdb.set_trace() # TODO: Remove end debug
+    
     try:
         data = request.get_json()
         
@@ -49,7 +48,7 @@ def login():
 
         user = User.query.filter_by(username=data['username']).first()
         
-        if not user or not check_password_hash(user.password, data['password']):
+        if not user or not user.verify_password(data['password']):
             return jsonify({
                 'success': False,
                 'message': 'Invalid credentials'
@@ -58,7 +57,7 @@ def login():
         # Generate token
         token = jwt.encode({
             'user_id': user.id,
-            'exp': datetime.utcnow() + timedelta(seconds=TOKEN_EXPIRATION)
+            'exp': datetime.now(timezone.utc) + timedelta(seconds=TOKEN_EXPIRATION)
         }, SECRET_KEY, algorithm='HS256')
 
         return jsonify({
