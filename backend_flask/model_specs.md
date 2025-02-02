@@ -11,6 +11,7 @@
 - country: String(100, nullable=True)  // Country name (optional)
 - province: String(100, nullable=True)  // Province/state (optional)
 - city: String(100, nullable=True)  // City name (optional)
+- region: String(100, nullable=True) // Region (optional)
 - street: String(200, nullable=True)  // Street address (optional)
 - address: String(200, nullable=True)  // Full address (optional)
 - longitude: Float(nullable=True)  // GPS coordinate (optional)
@@ -18,8 +19,9 @@
 
 ## Company
 // A company group that owns many subsidiaries
-- name_eng: String(50, unique=True)  // Required unique English name
-- name_chn: String(50, nullable=True)  // Optional Chinese name
+- name_eng: String(255, unique=True)  // Required unique English name
+- name_chn: String(255, nullable=True)  // Optional Chinese name
+- name_chn_abbr: String(50, nullable=True)  // Abbreviation of the company name
 - location -> Location  // Optional location details
 
 ## BG (Business Group)
@@ -35,7 +37,6 @@
 - name_eng: String(50, unique=True)  // Required unique English name
 - name_chn: String(50, nullable=True)  // Optional Chinese name
 - company -> Company  // Optional company reference
-- location -> Location  // Optional location details
 
 ## Plant
 - plant_code: String(10, unique=True)  // Required unique plant code (e.g. SA03, QA08)
@@ -207,5 +208,18 @@
 - role -> Role
 - permission -> Permission
 
+## TopBarMenu
+- name: String(255)
+- order: Integer
 
+## SideBarMenu
+- name: String(255)
+- top_bar -> TopBarMenu
+- parent -> SideBarMenu
+- url: String(255)
+- order: Integet
+
+## MenuItemPermission
+- menu -> SideBarMenu
+- permission -> Permission
 

@@ -19,6 +19,7 @@ class Location(db.Model):
     country = Column(String(100))
     province = Column(String(100))
     city = Column(String(100))
+    region = Column(String(100))
     street = Column(String(200))
     address = Column(String(200))
     longitude = Column(Float)
@@ -40,8 +41,9 @@ class Company(db.Model):
     created_user = relationship('User', foreign_keys=[created_user_id])
     updated_user = relationship('User', foreign_keys=[updated_user_id])
 
-    name_eng = Column(String(50))
-    name_chn = Column(String(50), comment='If there is no Chinese name, it will default to the English name.')
+    name_eng = Column(String(255))
+    name_chn = Column(String(255), comment='If there is no Chinese name, it will default to the English name.')
+    name_chn_abbr = Column(String(10), comment='Abbreviation of the company name')
 
     location_id = Column(Integer, ForeignKey('oog_location.id'))
     location = relationship('Location')
@@ -65,6 +67,7 @@ class BG(db.Model):
     name_eng = Column(String(50))
     name_chn = Column(String(50), comment='If there is no Chinese name, it will default to the English name.')
 
+
     def __repr__(self):
         return f'<BG {self.name_eng}>'
 
@@ -81,6 +84,7 @@ class BU(db.Model):
     updated_user = relationship('User', foreign_keys=[updated_user_id])
     name_eng = Column(String(50))
     name_chn = Column(String(50), comment='If there is no Chinese name, it will default to the English name.')
+
 
     bg_id = Column(Integer, ForeignKey('oog_bg.id'))
     bg = relationship('BG')
@@ -105,8 +109,6 @@ class PlantDistrict(db.Model):
     company_id = Column(Integer, ForeignKey('oog_company.id'))
     company = relationship('Company')
 
-    location_id = Column(Integer, ForeignKey('oog_location.id'))
-    location = relationship('Location')
 
     def __repr__(self):
         return f'<PlantDistrict {self.name_eng}>'
@@ -696,3 +698,65 @@ class SProcMaterial(db.Model):
     
     def __repr__(self):
         return f'<SProcMaterial {self.id}>'
+
+class TopBarMenu(db.Model):
+    __tablename__ = 'oog_top_bar_menu'
+    
+    id = Column(Integer, Sequence('top_bar_menu_id_seq'), primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    name = Column(String(255))
+    order = Column(Integer)
+    
+    sidebars = relationship('SideBarMenu', backref='top_bar_menu')
+    
+    def __repr__(self):
+        return f'<TopBarMenu {self.name}>'
+
+class SideBarMenu(db.Model):
+    __tablename__ = 'oog_side_bar_menu'
+    
+    id = Column(Integer, Sequence('side_bar_menu_id_seq'), primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    name = Column(String(255))
+    url = Column(String(255))
+    order = Column(Integer)
+    
+    top_bar_id = Column(Integer, ForeignKey('oog_top_bar_menu.id'))
+    
+    parent_id = Column(Integer, ForeignKey('oog_side_bar_menu.id'))
+    parent = relationship('SideBarMenu', remote_side=[id])
+    
+    def __repr__(self):
+        return f'<SideBarMenu {self.name}>'
+
+class MenuItemPermission(db.Model):
+    __tablename__ = 'oog_menu_item_permission'
+    
+    id = Column(Integer, Sequence('menu_item_permission_id_seq'), primary_key = True)
+    created_dt = Column(DateTime, default=func.now())
+    updated_dt = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    updated_user_id = Column(Integer, ForeignKey('oog_user.id'))
+    created_user = relationship('User', foreign_keys=[created_user_id])
+    updated_user = relationship('User', foreign_keys=[updated_user_id])
+    
+    menu_id = Column(Integer, ForeignKey('oog_side_bar_menu.id'))
+    menu = relationship('SideBarMenu')
+    
+    permission_id = Column(Integer, ForeignKey('oog_permission.id'))
+    permission = relationship('Permission')
+    
+    def __repr__(self):
+        return f'<MenuItemPermission {self.id}>'
