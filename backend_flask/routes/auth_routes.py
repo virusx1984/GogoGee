@@ -48,7 +48,7 @@ def login():
         # Preflight request. Reply successfully:
         response = jsonify({'success': True})
         return response
-
+    
     try:
         data = request.get_json()
         
@@ -95,8 +95,10 @@ def validate_token(current_user):
         }
     }), 200
 
-@auth_bp.route('/user', methods=['GET', 'OPTIONS'])
-@cross_origin()
+@auth_bp.route('/user', methods=['GET'])
+@cross_origin(origins=["http://127.0.0.1:5500", "http://localhost:5500"], 
+             supports_credentials=True,
+             allow_headers=["Content-Type", "Authorization"])
 @token_required
 def get_user(current_user):
     return jsonify({
@@ -107,6 +109,9 @@ def get_user(current_user):
     }), 200
 
 @auth_bp.route('/logout', methods=['POST'])
+@cross_origin(origins=["http://127.0.0.1:5500", "http://localhost:5500"], 
+             supports_credentials=True,
+             allow_headers=["Content-Type", "Authorization"])
 @token_required
 def logout(current_user):
     # In a more complex system, you might want to invalidate the token

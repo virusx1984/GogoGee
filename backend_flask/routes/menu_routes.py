@@ -6,45 +6,74 @@ from .auth_routes import token_required
 menu_bp = Blueprint('menu', __name__, url_prefix='/api/menus')
 
 @menu_bp.route('/', methods=['GET', 'OPTIONS'])
-@cross_origin()
+@cross_origin(
+    origins=["http://127.0.0.1:5500", "http://localhost:5500"],
+    methods=["GET", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"],
+    supports_credentials=True,
+    max_age=3600
+)
 @token_required
-def get_menus(current_user):
-    # Get all top menus ordered by order
-    top_menus = TopBarMenu.query.order_by(TopBarMenu.order).all()
-    
-    # Get all side menus ordered by order
-    side_menus = SideBarMenu.query.order_by(SideBarMenu.order).all()
-    
-    # Format top menus
-    formatted_top_menus = [{
-        'id': menu.id,
-        'name': menu.name,
-        'order': menu.order
-    } for menu in top_menus]
-    
-    # Format side menus with hierarchy
-    def format_side_menu(menu):
-        menu_dict = {
-            'id': menu.id,
-            'name': menu.name,
-            'url': menu.url,
-            'order': menu.order,
-            'icon': 'bi-folder' # Default icon, you can add an icon field to the model if needed
-        }
+def get_menus_with_token(current_user):
+    try:
+        # Get all top menus ordered by order
+        top_menus = TopBarMenu.query.order_by(TopBarMenu.order).all()
         
-        # Get children menus
-        children = SideBarMenu.query.filter_by(parent_id=menu.id).order_by(SideBarMenu.order).all()
-        if children:
-            menu_dict['submenu'] = [format_side_menu(child) for child in children]
+        # Get all side menus ordered by order
+        side_menus = SideBarMenu.query.order_by(SideBarMenu.order).all()
+        
+        # Format side menus with hierarchy first
+        def format_side_menu(menu):
+            menu_dict = {
+                'id': menu.id,
+                'name': menu.name,
+                'url': menu.url,
+                'order': menu.order,
+                'top_menu': menu.top_bar_menu_id,
+                'icon': 'bi-folder'
+            }
             
-        return menu_dict
-    
-    # Get only root menus (no parent)
-    root_side_menus = SideBarMenu.query.filter_by(parent_id=None).order_by(SideBarMenu.order).all()
-    formatted_side_menus = [format_side_menu(menu) for menu in root_side_menus]
-    
-    return jsonify({
-        'success': True,
-        'top_menus': formatted_top_menus,
-        'side_menus': formatted_side_menus
-    }) 
+            # Get children menus
+            children = SideBarMenu.query.filter_by(parent_id=menu.id).order_by(SideBarMenu.order).all()
+            if children:
+                menu_dict['submenu'] = [format_side_menu(child) for child in children]
+                
+            return menu_dict
+        
+        # Get root side menus and format them
+        root_side_menus = SideBarMenu.query.filter_by(parent_id=None).order_by(SideBarMenu.order).all()
+        formatted_side_menus = [format_side_menu(menu) for menu in root_side_menus]
+        
+        # Format top menus with URLs from their first sidebar items
+        formatted_top_menus = []
+        for menu in top_menus:
+            # Find first sidebar item for this top menu
+            first_sidebar = SideBarMenu.query.filter_by(top_bar_menu_id=menu.id, parent_id=None).order_by(SideBarMenu.order).first()
+            url = '#'
+            
+            if first_sidebar:
+                # If first sidebar item has submenu, use its first child's URL
+                first_child = SideBarMenu.query.filter_by(parent_id=first_sidebar.id).order_by(SideBarMenu.order).first()
+                if first_child:
+                    url = first_child.url
+                else:
+                    url = first_sidebar.url
+                    
+            formatted_top_menus.append({
+                'id': menu.id,
+                'name': menu.name,
+                'url': url,
+                'order': menu.order
+            })
+        
+        return jsonify({
+            'success': True,
+            'top_menus': formatted_top_menus,
+            'side_menus': formatted_side_menus
+        })
+    except Exception as e:
+        print(f"Error in get_menus_with_token: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500 
