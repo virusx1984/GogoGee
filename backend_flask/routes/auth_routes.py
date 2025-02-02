@@ -4,7 +4,8 @@ from ..models import db
 import jwt
 from datetime import datetime, timedelta, timezone
 from functools import wraps
-
+from flask_cors import cross_origin
+import pdb
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
@@ -15,17 +16,21 @@ TOKEN_EXPIRATION = 3600  # 1 hour
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = request.headers.get('Authorization')
-        if not token:
+        auth_header = request.headers.get('Authorization')
+        if not auth_header:
             return jsonify({
                 'success': False,
                 'message': 'Token is missing'
             }), 401
 
         try:
+            # Remove 'Bearer ' prefix if present
+            token = auth_header.replace('Bearer ', '') if auth_header.startswith('Bearer ') else auth_header
             data = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
             current_user = User.query.get(data['user_id'])
-        except:
+            if not current_user:
+                raise Exception('User not found')
+        except Exception as e:
             return jsonify({
                 'success': False,
                 'message': 'Token is invalid'
@@ -34,9 +39,16 @@ def token_required(f):
         return f(current_user, *args, **kwargs)
     return decorated
 
-@auth_bp.route('/login', methods=['POST'])
+@auth_bp.route('/login', methods=['POST', 'OPTIONS'])
+@cross_origin(origins=["http://127.0.0.1:5500", "http://localhost:5500"], 
+             supports_credentials=True,
+             allow_headers=["Content-Type", "Authorization"])
 def login():
-    
+    if request.method == 'OPTIONS':
+        # Preflight request. Reply successfully:
+        response = jsonify({'success': True})
+        return response
+
     try:
         data = request.get_json()
         
@@ -81,4 +93,24 @@ def validate_token(current_user):
             'id': current_user.id,
             'username': current_user.username
         }
+    }), 200
+
+@auth_bp.route('/user', methods=['GET', 'OPTIONS'])
+@cross_origin()
+@token_required
+def get_user(current_user):
+    return jsonify({
+        'success': True,
+        'name_eng': current_user.name_eng,
+        'username': current_user.username,
+        'id': current_user.id
+    }), 200
+
+@auth_bp.route('/logout', methods=['POST'])
+@token_required
+def logout(current_user):
+    # In a more complex system, you might want to invalidate the token
+    return jsonify({
+        'success': True,
+        'message': 'Successfully logged out'
     }), 200

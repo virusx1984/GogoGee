@@ -169,14 +169,14 @@ class SupplierPOD(db.Model):
 
     alias = Column(String(100))
 
-    location_id = Column(Integer, ForeignKey('oog_location.id'))
-    location = relationship('Location')
+    supplier_id = Column(Integer, ForeignKey('oog_supplier.id'))
+    supplier = relationship('Supplier')
 
-    supplier_pod_id = Column(Integer, ForeignKey('oog_supplier_pod.id'))
-    supplier_pod = relationship('SupplierPOD')
+    company_id = Column(Integer, ForeignKey('oog_company.id'))
+    company = relationship('Company')
 
     def __repr__(self):
-        return f'<Supplier {self.alias}>'
+        return f'<SupplierPOD {self.alias}>'
     
 
 class CurrencyEx(db.Model):
@@ -712,8 +712,7 @@ class TopBarMenu(db.Model):
     
     name = Column(String(255))
     order = Column(Integer)
-    
-    sidebars = relationship('SideBarMenu', backref='top_bar_menu')
+
     
     def __repr__(self):
         return f'<TopBarMenu {self.name}>'
@@ -734,6 +733,7 @@ class SideBarMenu(db.Model):
     order = Column(Integer)
     
     top_bar_id = Column(Integer, ForeignKey('oog_top_bar_menu.id'))
+    top_bar = relationship('TopBarMenu')
     
     parent_id = Column(Integer, ForeignKey('oog_side_bar_menu.id'))
     parent = relationship('SideBarMenu', remote_side=[id])

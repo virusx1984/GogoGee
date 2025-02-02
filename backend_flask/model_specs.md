@@ -52,7 +52,7 @@
 
 ## SupplierPOD (Place of Delivery)
 - alias: String(100)
-- location -> Location
+- company -> Company
 - supplier -> Supplier
 
 ## CurrencyEx (Currency Exchange)

@@ -91,6 +91,26 @@
             gap: 5px;
             padding: 2px;
         }
+
+        .model-box {
+            border: 1px solid black;
+            margin: 10px;
+            padding: 10px;
+            display: inline-block;
+            vertical-align: top;
+            background-color: #f0f0f0;
+        }
+        .relationship {
+            color: blue;
+            font-style: italic;
+        }
+        .primary-key {
+            color: red;
+            font-weight: bold;
+        }
+        .foreign-key {
+            color: green;
+        }
     </style>
 </head>
 
@@ -383,14 +403,14 @@
                     <td>String(100)</td>
                 </tr>
                 <tr class="fk-highlight">
-                    <td><span class="field-name" data-bs-toggle="popover" title="location_id"
-                            data-bs-content="Foreign key to Location">location_id</span></td>
-                    <td>FK to Location</td>
-                </tr>
-                <tr class="fk-highlight">
                     <td><span class="field-name" data-bs-toggle="popover" title="supplier_id"
                             data-bs-content="Foreign key to Supplier">supplier_id</span></td>
                     <td>FK to Supplier</td>
+                </tr>
+                <tr class="fk-highlight">
+                    <td><span class="field-name" data-bs-toggle="popover" title="company_id"
+                            data-bs-content="Foreign key to Company">company_id</span></td>
+                    <td>FK to Company</td>
                 </tr>
             </tbody>
         </table>
