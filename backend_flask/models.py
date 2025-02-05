@@ -732,8 +732,8 @@ class SideBarMenu(db.Model):
     url = Column(String(255))
     order = Column(Integer)
     
-    top_bar_id = Column(Integer, ForeignKey('oog_top_bar_menu.id'))
-    top_bar = relationship('TopBarMenu')
+    top_bar_menu_id = Column(Integer, ForeignKey('oog_top_bar_menu.id'))
+    top_bar_menu = relationship('TopBarMenu')
     
     parent_id = Column(Integer, ForeignKey('oog_side_bar_menu.id'))
     parent = relationship('SideBarMenu', remote_side=[id])
@@ -752,8 +752,8 @@ class MenuItemPermission(db.Model):
     created_user = relationship('User', foreign_keys=[created_user_id])
     updated_user = relationship('User', foreign_keys=[updated_user_id])
     
-    menu_id = Column(Integer, ForeignKey('oog_side_bar_menu.id'))
-    menu = relationship('SideBarMenu')
+    side_bar_menu_id = Column(Integer, ForeignKey('oog_side_bar_menu.id'))
+    side_bar_menu = relationship('SideBarMenu')
     
     permission_id = Column(Integer, ForeignKey('oog_permission.id'))
     permission = relationship('Permission')

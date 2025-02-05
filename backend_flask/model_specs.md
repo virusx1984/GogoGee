@@ -214,12 +214,11 @@
 
 ## SideBarMenu
 - name: String(255)
-- top_bar -> TopBarMenu
+- top_bar_menu -> TopBarMenu
 - parent -> SideBarMenu
 - url: String(255)
-- order: Integet
+- order: Integer
 
 ## MenuItemPermission
-- menu -> SideBarMenu
+- side_bar_menu -> SideBarMenu
 - permission -> Permission
-

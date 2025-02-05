@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify
 from flask_cors import cross_origin
 from ..models import TopBarMenu, SideBarMenu
 from .auth_routes import token_required
+import pdb
 
 menu_bp = Blueprint('menu', __name__, url_prefix='/api/menus')
 
@@ -29,7 +30,7 @@ def get_menus_with_token(current_user):
                 'name': menu.name,
                 'url': menu.url,
                 'order': menu.order,
-                'top_menu': menu.top_bar_menu_id,
+                'top_menu': menu.top_bar_menu_id,  # Make sure this matches the model field
                 'icon': 'bi-folder'
             }
             
@@ -40,9 +41,11 @@ def get_menus_with_token(current_user):
                 
             return menu_dict
         
-        # Get root side menus and format them
+        # Get all side menus first (including children)
+        formatted_side_menus = []
         root_side_menus = SideBarMenu.query.filter_by(parent_id=None).order_by(SideBarMenu.order).all()
-        formatted_side_menus = [format_side_menu(menu) for menu in root_side_menus]
+        for menu in root_side_menus:
+            formatted_side_menus.append(format_side_menu(menu))
         
         # Format top menus with URLs from their first sidebar items
         formatted_top_menus = []
@@ -66,6 +69,7 @@ def get_menus_with_token(current_user):
                 'order': menu.order
             })
         
+
         return jsonify({
             'success': True,
             'top_menus': formatted_top_menus,
@@ -76,4 +80,4 @@ def get_menus_with_token(current_user):
         return jsonify({
             'success': False,
             'error': str(e)
-        }), 500 
+        }), 500

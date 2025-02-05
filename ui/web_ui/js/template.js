@@ -55,9 +55,11 @@ class Template {
             
             // Filter side menu items based on active top menu
             const filteredSideMenus = menuData.side_menus.filter(item => {
-                return item.top_menu === this.activeTopMenu;
+                console.log('Filtering menu item:', item, 'activeTopMenu:', this.activeTopMenu);
+                return item.top_menu === parseInt(this.activeTopMenu);  // Convert to integer for comparison
             });
 
+            console.log('Filtered side menus:', filteredSideMenus);
             const menuItems = this.buildMenuHTML(filteredSideMenus);
 
             return `
@@ -232,7 +234,9 @@ class Template {
                 topMenuContainer.querySelectorAll('.nav-link').forEach(link => {
                     link.addEventListener('click', async (e) => {
                         e.preventDefault();
-                        this.activeTopMenu = e.currentTarget.dataset.menuId;
+                        const menuId = e.currentTarget.dataset.menuId;
+                        console.log('Clicked top menu ID:', menuId);
+                        this.activeTopMenu = menuId;
                         
                         // Update active states
                         topMenuContainer.querySelectorAll('.nav-item').forEach(item => 
@@ -240,19 +244,31 @@ class Template {
                         );
                         e.currentTarget.parentElement.classList.add('active');
                         
+                        // Get menu data again to ensure we have fresh data
+                        const response = await fetch('http://localhost:5000/api/menus/', {
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                        const menuData = await response.json();
+                        console.log('Menu data:', menuData);
+                        
+                        // Filter side menus
+                        const filteredSideMenus = menuData.side_menus.filter(item => {
+                            console.log('Comparing:', item.top_menu, parseInt(menuId));
+                            return item.top_menu === parseInt(menuId);
+                        });
+                        console.log('Filtered side menus:', filteredSideMenus);
+
                         // Update sidebar with filtered items
                         const sidebarContent = await this.getSidebarHTML();
                         document.getElementById('sidebar').innerHTML = sidebarContent;
                         this.initializeEvents();
 
-                        // Navigate to first sidebar item
-                        const filteredSideMenus = menuData.side_menus.filter(item => 
-                            item.top_menu === this.activeTopMenu
-                        );
-
+                        // Navigate to first sidebar item if available
                         if (filteredSideMenus.length > 0) {
                             const firstItem = filteredSideMenus[0];
-                            // If first item has submenu, get its first child
                             if (firstItem.submenu && firstItem.submenu.length > 0) {
                                 window.location.href = firstItem.submenu[0].url;
                             } else {
