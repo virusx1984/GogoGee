@@ -393,11 +393,11 @@ body.sidebar-collapsed .menu-item:hover a::after {
 }
 
 /* Animations */
-.dropdown-menu {
+/* .dropdown-menu {
     animation: fadeIn 0.2s ease-out;
-}
+} */
 
-@keyframes fadeIn {
+/* @keyframes fadeIn {
     from {
         opacity: 0;
         transform: translateY(10px);
@@ -406,7 +406,7 @@ body.sidebar-collapsed .menu-item:hover a::after {
         opacity: 1;
         transform: translateY(0);
     }
-}
+} */
 
 /* Add these styles for top menu */
 .top-menu {
