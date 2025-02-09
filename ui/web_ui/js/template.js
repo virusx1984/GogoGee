@@ -156,13 +156,16 @@ class Template {
                 <div class="page-title">
                     <h1>${document.title.split('-')[0].trim()}</h1>
                 </div>
+                <div class="topbar-search">
+                    <input type="text" placeholder="Search..." aria-label="Search" />
+                </div>
                 <div class="top-menu">
                     <ul class="nav-menu" id="topMenuItems">
                         <!-- Top menu items will be inserted here -->
                     </ul>
                 </div>
             </div>
-            
+
             <div class="topbar-right">
                 <div class="topbar-actions">
                     <button class="btn-icon">
@@ -359,4 +362,4 @@ class Template {
             }
         });
     }
-} 
+}
