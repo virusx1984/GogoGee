@@ -210,14 +210,14 @@
 
 ## TopBarMenu
 - name: String(255)
-- order: Integer
+- menu_order: Integer
 
 ## SideBarMenu
 - name: String(255)
 - top_bar_menu -> TopBarMenu
 - parent -> SideBarMenu
 - url: String(255)
-- order: Integer
+- menu_order: Integer
 
 ## MenuItemPermission
 - side_bar_menu -> SideBarMenu

@@ -19,13 +19,13 @@ class Template {
                 <nav id="sidebar" class="sidebar">
                     ${await this.getSidebarHTML()}
                 </nav>
-                
+
                 <div class="main-content">
                     <!-- Topbar -->
                     <header id="topbar" class="topbar">
                         ${this.getTopbarHTML()}
                     </header>
-                    
+
                     <!-- Main Content -->
                     <main id="content-wrapper" class="content-wrapper">
                         ${document.body.innerHTML}
@@ -39,6 +39,7 @@ class Template {
         await this.updateUserInfo();
     }
 
+
     async getSidebarHTML() {
         try {
             const token = localStorage.getItem('token');
@@ -50,9 +51,9 @@ class Template {
             });
 
             if (!response.ok) throw new Error('Failed to fetch menu items');
-            
+
             const menuData = await response.json();
-            
+
             // Filter side menu items based on active top menu
             const filteredSideMenus = menuData.side_menus.filter(item => {
                 console.log('Filtering menu item:', item, 'activeTopMenu:', this.activeTopMenu);
@@ -68,7 +69,7 @@ class Template {
                         <h3>Planning System</h3>
                     </div>
                 </div>
-                
+
                 <div class="sidebar-content">
                     <ul class="sidebar-menu">
                         ${menuItems}
@@ -80,6 +81,7 @@ class Template {
             return this.getDefaultMenuHTML();
         }
     }
+
 
     buildMenuHTML(items) {
         return items.map(item => {

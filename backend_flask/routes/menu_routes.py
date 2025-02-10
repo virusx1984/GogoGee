@@ -18,10 +18,10 @@ menu_bp = Blueprint('menu', __name__, url_prefix='/api/menus')
 def get_menus_with_token(current_user):
     try:
         # Get all top menus ordered by order
-        top_menus = TopBarMenu.query.order_by(TopBarMenu.order).all()
+        top_menus = TopBarMenu.query.order_by(TopBarMenu.menu_order).all()
         
         # Get all side menus ordered by order
-        side_menus = SideBarMenu.query.order_by(SideBarMenu.order).all()
+        side_menus = SideBarMenu.query.order_by(SideBarMenu.menu_order).all()
         
         # Format side menus with hierarchy first
         def format_side_menu(menu):
@@ -29,13 +29,13 @@ def get_menus_with_token(current_user):
                 'id': menu.id,
                 'name': menu.name,
                 'url': menu.url,
-                'order': menu.order,
+                'order': menu.menu_order,
                 'top_menu': menu.top_bar_menu_id,  # Make sure this matches the model field
                 'icon': 'bi-folder'
             }
             
             # Get children menus
-            children = SideBarMenu.query.filter_by(parent_id=menu.id).order_by(SideBarMenu.order).all()
+            children = SideBarMenu.query.filter_by(parent_id=menu.id).order_by(SideBarMenu.menu_order).all()
             if children:
                 menu_dict['submenu'] = [format_side_menu(child) for child in children]
                 
@@ -43,7 +43,7 @@ def get_menus_with_token(current_user):
         
         # Get all side menus first (including children)
         formatted_side_menus = []
-        root_side_menus = SideBarMenu.query.filter_by(parent_id=None).order_by(SideBarMenu.order).all()
+        root_side_menus = SideBarMenu.query.filter_by(parent_id=None).order_by(SideBarMenu.menu_order).all()
         for menu in root_side_menus:
             formatted_side_menus.append(format_side_menu(menu))
         
@@ -51,12 +51,12 @@ def get_menus_with_token(current_user):
         formatted_top_menus = []
         for menu in top_menus:
             # Find first sidebar item for this top menu
-            first_sidebar = SideBarMenu.query.filter_by(top_bar_menu_id=menu.id, parent_id=None).order_by(SideBarMenu.order).first()
+            first_sidebar = SideBarMenu.query.filter_by(top_bar_menu_id=menu.id, parent_id=None).order_by(SideBarMenu.menu_order).first()
             url = '#'
             
             if first_sidebar:
                 # If first sidebar item has submenu, use its first child's URL
-                first_child = SideBarMenu.query.filter_by(parent_id=first_sidebar.id).order_by(SideBarMenu.order).first()
+                first_child = SideBarMenu.query.filter_by(parent_id=first_sidebar.id).order_by(SideBarMenu.menu_order).first()
                 if first_child:
                     url = first_child.url
                 else:
@@ -66,7 +66,7 @@ def get_menus_with_token(current_user):
                 'id': menu.id,
                 'name': menu.name,
                 'url': url,
-                'order': menu.order
+                'order': menu.menu_order
             })
         
 

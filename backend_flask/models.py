@@ -711,7 +711,7 @@ class TopBarMenu(db.Model):
     updated_user = relationship('User', foreign_keys=[updated_user_id])
     
     name = Column(String(255))
-    order = Column(Integer)
+    menu_order = Column(Integer)
 
     
     def __repr__(self):
@@ -730,7 +730,7 @@ class SideBarMenu(db.Model):
     
     name = Column(String(255))
     url = Column(String(255))
-    order = Column(Integer)
+    menu_order = Column(Integer)
     
     top_bar_menu_id = Column(Integer, ForeignKey('oog_top_bar_menu.id'))
     top_bar_menu = relationship('TopBarMenu')
