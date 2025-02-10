@@ -159,7 +159,7 @@ class Template {
                     <h1>${document.title.split('-')[0].trim()}</h1>
                 </div>
                 <div class="topbar-search">
-                    <input type="text" placeholder="Search..." aria-label="Search" />
+                    <input type="text" placeholder="Search ..." aria-label="Search" />
                 </div>
                 <div class="top-menu">
                     <ul class="nav-menu" id="topMenuItems">
@@ -325,10 +325,16 @@ class Template {
     }
 
     initializeEvents() {
-        // Toggle sidebar
+        // Remove existing event listeners first
+        document.querySelectorAll('.btn-toggle-sidebar').forEach(btn => {
+            btn.replaceWith(btn.cloneNode(true));
+        });
+
+        // Add new event listeners
         document.querySelectorAll('.btn-toggle-sidebar').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.body.classList.toggle('sidebar-collapsed');
+                console.log('Toggle sidebar clicked');
             });
         });
 
