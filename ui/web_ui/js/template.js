@@ -59,14 +59,14 @@ class Template {
                 console.log('Filtering menu item:', item, 'activeTopMenu:', this.activeTopMenu);
                 return item.top_menu === parseInt(this.activeTopMenu);  // Convert to integer for comparison
             });
-
+            
             console.log('Filtered side menus:', filteredSideMenus);
             const menuItems = this.buildMenuHTML(filteredSideMenus);
 
             return `
                 <div class="sidebar-header">
                     <div class="brand">
-                        <h3>Planning System</h3>
+                        <h3>System</h3>
                     </div>
                 </div>
 
@@ -158,13 +158,13 @@ class Template {
                 <div class="page-title">
                     <h1>${document.title.split('-')[0].trim()}</h1>
                 </div>
-                <div class="topbar-search">
-                    <input type="text" placeholder="Search ..." aria-label="Search" />
-                </div>
                 <div class="top-menu">
                     <ul class="nav-menu" id="topMenuItems">
                         <!-- Top menu items will be inserted here -->
                     </ul>
+                </div>
+                <div class="topbar-search">
+                    <input type="text" placeholder="Search..." aria-label="Search" />
                 </div>
             </div>
 
@@ -224,7 +224,7 @@ class Template {
                     currentPath.includes(item.url) || 
                     (item.side_menus && item.side_menus.some(side => currentPath.includes(side.url)))
                 );
-
+                
                 this.activeTopMenu = activeTopMenu ? activeTopMenu.id : menuData.top_menus[0].id;
 
                 topMenuContainer.innerHTML = menuData.top_menus.map(item => `
