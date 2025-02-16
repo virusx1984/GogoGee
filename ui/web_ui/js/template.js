@@ -1,3 +1,22 @@
+/*
+the calling sequence of events for initializing the template is as follows:
+constructor
+  └── init
+        ├── getSidebarHTML
+        │     ├── buildMenuHTML
+        │     └── getDefaultMenuHTML
+        ├── getTopbarHTML
+        ├── initializeEvents
+        ├── updateTopMenu
+        │     ├── getSidebarHTML
+        │     │     ├── buildMenuHTML
+        │     │     └── getDefaultMenuHTML
+        │     └── initializeEvents
+        └── updateUserInfo
+buildMenuHTML
+  └── buildMenuHTML (recursively if there are submenus)
+*/
+
 class Template {
     constructor() {
         this.activeTopMenu = '';
@@ -14,22 +33,29 @@ class Template {
 
         // Create template structure
         document.body.innerHTML = `
-            <div class="layout-wrapper">
+            <!-- div1 -->
+            <div class="layout-wrapper"> 
                 <!-- Sidebar -->
-                <nav id="sidebar" class="sidebar">
-                    ${await this.getSidebarHTML()}
-                </nav>
 
-                <div class="main-content">
+                <!-- div2 -->
+                <div id="sidebar" class="sidebar">                    
+                    ${await this.getSidebarHTML()}
+                </div>
+
+                <!-- div3 -->
+                <div class="main-content"> 
                     <!-- Topbar -->
-                    <header id="topbar" class="topbar">
+                    <!-- div4 -->
+                    <div id="topbar" class="topbar"> 
                         ${this.getTopbarHTML()}
-                    </header>
+                        
+                    </div>
 
                     <!-- Main Content -->
-                    <main id="content-wrapper" class="content-wrapper">
+                    <!-- div5 -->
+                    <div id="content-wrapper" class="content-wrapper">
                         ${document.body.innerHTML}
-                    </main>
+                    </div>
                 </div>
             </div>
         `;
@@ -72,7 +98,49 @@ class Template {
 
                 <div class="sidebar-content">
                     <ul class="sidebar-menu">
-                        ${menuItems}
+                        fjdsafljdsalfjdklasjflkdsajfkldasjlfdsal
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        fdfd</br>
+                        <!-- ${menuItems} -->
+                        
+                        
                     </ul>
                 </div>
             `;
@@ -164,10 +232,22 @@ class Template {
                     </ul>
                 </div>
                 <div class="topbar-search">
-                    <input type="text" placeholder="Search..." aria-label="Search" />
+                    <div class="search-icon-container">
+                        <button class="btn btn-link" id="search-icon">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="search-box-container d-none">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search..." aria-label="Search">
+                            <button class="btn btn-outline-secondary" type="button" id="button-search-close">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
+            </div>
             <div class="topbar-right">
                 <div class="topbar-actions">
                     <button class="btn-icon">
@@ -344,6 +424,27 @@ class Template {
                 const parent = e.currentTarget.parentElement;
                 parent.classList.toggle('open');
             });
+        });
+
+        // Search icon click event
+        const searchIcon = document.getElementById('search-icon');
+        const searchBoxContainer = document.querySelector('.search-box-container');
+        const closeSearchBtn = document.getElementById('button-search-close');
+
+        searchIcon.addEventListener('click', () => {
+            searchBoxContainer.classList.remove('d-none');
+            searchBoxContainer.querySelector('input').focus();
+        });
+
+        closeSearchBtn.addEventListener('click', () => {
+            searchBoxContainer.classList.add('d-none');
+        });
+
+        // Close search box when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('.topbar-search')) {
+                searchBoxContainer.classList.add('d-none');
+            }
         });
 
         // Logout handler
