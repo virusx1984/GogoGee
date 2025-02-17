@@ -98,48 +98,7 @@ class Template {
 
                 <div class="sidebar-content">
                     <ul class="sidebar-menu">
-                        fjdsafljdsalfjdklasjflkdsajfkldasjlfdsal
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        fdfd</br>
-                        <!-- ${menuItems} -->
-                        
+                        ${menuItems}                       
                         
                     </ul>
                 </div>
