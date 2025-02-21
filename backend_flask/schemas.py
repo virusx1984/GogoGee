@@ -13,7 +13,7 @@ from models import (
     PDBUProduct, YieldRate, PartNum, PNLayer, ProcCode,
     SubProcCode, PNLayerProc, PNLayerSProc, Role,
     UserRole, User, Permission, RolePermission,
-    Material, SProcMaterial
+    Material, SProcMaterial, TopBarMenu, SideBarMenu, MenuItemPermission
 )
 
 class LocationSchema(SQLAlchemyAutoSchema):
@@ -199,3 +199,31 @@ class SProcMaterialSchema(SQLAlchemyAutoSchema):
         model = SProcMaterial
         include_relationships = True
         load_instance = True
+
+class TopBarMenuSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = TopBarMenu
+        include_relationships = True
+        load_instance = True
+
+class SideBarMenuSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = SideBarMenu
+        include_relationships = True
+        load_instance = True
+
+    # 添加嵌套的 TopBarMenu 关系
+    top_bar_menu = fields.Nested(TopBarMenuSchema, exclude=('side_bar_menus',))
+    
+    # 添加自引用关系
+    parent = fields.Nested('self', exclude=('parent',), allow_none=True)
+
+class MenuItemPermissionSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = MenuItemPermission
+        include_relationships = True
+        load_instance = True
+
+    # 添加嵌套的 SideBarMenu 和 Permission 关系
+    side_bar_menu = fields.Nested(SideBarMenuSchema, exclude=('menu_item_permissions',))
+    permission = fields.Nested('PermissionSchema', exclude=('menu_item_permissions',))

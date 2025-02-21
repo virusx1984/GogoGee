@@ -1,0 +1,19 @@
+.table-container {
+    max-width: 85%;
+    margin: 0;
+    text-align: left;
+}
+
+.table-sm td, .table-sm th {
+    padding: 0.1rem;
+    font-size: 0.85rem;
+}
+
+#addLocationBtn {
+    padding: 0.25rem 0.5rem;  /* Reduce padding */
+    font-size: 0.875rem;      /* Reduce font size */
+}
+
+#addLocationBtn i {
+    font-size: 0.875rem;      /* Reduce icon size */
+}
