@@ -82,17 +82,15 @@ class Template {
 
             // Filter side menu items based on active top menu
             const filteredSideMenus = menuData.side_menus.filter(item => {
-                console.log('Filtering menu item:', item, 'activeTopMenu:', this.activeTopMenu);
                 return item.top_menu === parseInt(this.activeTopMenu);  // Convert to integer for comparison
             });
-            
-            console.log('Filtered side menus:', filteredSideMenus);
             const menuItems = this.buildMenuHTML(filteredSideMenus);
 
             return `
                 <div class="sidebar-header">
                     <div class="brand">
                         <h3>System</h3>
+                        <span class="subtitle">shadow newma</span>
                     </div>
                 </div>
 
@@ -115,6 +113,7 @@ class Template {
             const isActive = window.location.pathname.includes(item.url);
             const hasSubItems = item.submenu && item.submenu.length > 0;
             const submenuId = `submenu-${item.id || Math.random().toString(36).substr(2, 9)}`;
+            const hasActiveSubmenu = hasSubItems && item.submenu.some(subItem => window.location.pathname.includes(subItem.url));
             
             return `
                 <li class="menu-item ${isActive ? 'active' : ''} ${hasSubItems ? 'has-submenu' : ''}">

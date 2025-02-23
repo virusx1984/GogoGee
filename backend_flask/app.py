@@ -50,11 +50,13 @@ def create_app():
     from backend_flask.routes.user_routes import user_bp
     from backend_flask.routes.menu_routes import menu_bp
     from backend_flask.routes.dashboard_routes import dashboard_bp
+    from backend_flask.routes.location_routes import location_bp
 
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(user_bp, url_prefix="/api/users")
     app.register_blueprint(menu_bp)
     app.register_blueprint(dashboard_bp)
+    app.register_blueprint(location_bp, url_prefix="/api/locations")
 
     # Add this route for debugging
     @app.before_request
