@@ -116,16 +116,16 @@ class Template {
             const hasActiveSubmenu = hasSubItems && item.submenu.some(subItem => window.location.pathname.includes(subItem.url));
             
             return `
-                <li class="menu-item ${isActive ? 'active' : ''} ${hasSubItems ? 'has-submenu' : ''}">
+                <li class="menu-item ${isActive ? 'active' : ''} ${hasSubItems ? 'has-submenu' : ''} ${hasActiveSubmenu ? 'submenu-active' : ''}">
                     <a href="${hasSubItems ? '#' : (item.url || '#')}" 
                        ${hasSubItems ? 'data-bs-toggle="collapse" data-bs-target="#' + submenuId + '"' : ''} 
                        data-title="${item.name}"
-                       ${hasSubItems ? 'role="button" aria-expanded="false" aria-controls="' + submenuId + '"' : ''}>
+                       ${hasSubItems ? 'role="button" aria-expanded="' + (hasActiveSubmenu ? 'true' : 'false') + '" aria-controls="' + submenuId + '"' : ''}>
                         <span>${item.name}</span>
                         ${hasSubItems ? '<i class="fas fa-chevron-right submenu-arrow"></i>' : ''}
                     </a>
                     ${hasSubItems ? `
-                        <ul class="submenu collapse" id="${submenuId}">
+                        <ul class="submenu collapse ${hasActiveSubmenu ? 'show' : ''}" id="${submenuId}">
                             ${this.buildMenuHTML(item.submenu)}
                         </ul>
                     ` : ''}
