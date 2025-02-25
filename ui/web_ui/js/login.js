@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 // Redirect to dashboard
-                window.location.href = '../pages/show_dashboard.html';
+                window.location.href = '../pages/dashboard.html';
             } else {
                 errorMessage.textContent = data.message || 'Login failed';
                 errorMessage.classList.remove('d-none');

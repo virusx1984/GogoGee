@@ -393,6 +393,7 @@ body.sidebar-collapsed .sidebar {
 body.sidebar-collapsed .brand h3,
 body.sidebar-collapsed .brand span,
 body.sidebar-collapsed .menu-item span,
+body.sidebar-collapsed .sidebar-header,
 body.sidebar-collapsed .submenu-arrow {
     display: none;
 }
