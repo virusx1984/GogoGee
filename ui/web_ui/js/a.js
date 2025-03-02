@@ -65,22 +65,24 @@ class Template {
         this.updateUserInfo();
     }
 
+
     getSidebarHTML() {
         try {
             const token = localStorage.getItem('token');
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', 'http://localhost:5000/api/menus/', false);
-            xhr.setRequestHeader('Authorization', `Bearer ${token}`);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send();
+            const response = fetch('http://localhost:5000/api/menus/', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
 
-            if (xhr.status !== 200) throw new Error('Failed to fetch menu items');
+            if (!response.ok) throw new Error('Failed to fetch menu items');
 
-            const menuData = JSON.parse(xhr.responseText);
+            const menuData = response.json();
 
             // Filter side menu items based on active top menu
             const filteredSideMenus = menuData.side_menus.filter(item => {
-                return item.top_menu === parseInt(this.activeTopMenu);
+                return item.top_menu === parseInt(this.activeTopMenu);  // Convert to integer for comparison
             });
             const menuItems = this.buildMenuHTML(filteredSideMenus);
 
@@ -105,13 +107,14 @@ class Template {
         }
     }
 
+
     buildMenuHTML(items) {
         return items.map(item => {
             const isActive = window.location.pathname.includes(item.url);
             const hasSubItems = item.submenu && item.submenu.length > 0;
             const submenuId = `submenu-${item.id || Math.random().toString(36).substr(2, 9)}`;
             const hasActiveSubmenu = hasSubItems && item.submenu.some(subItem => window.location.pathname.includes(subItem.url));
-
+            
             return `
                 <li class="menu-item ${isActive ? 'active' : ''} ${hasSubItems ? 'has-submenu' : ''} ${hasActiveSubmenu ? 'submenu-active' : ''}">
                     <a href="${hasSubItems ? '#' : (item.url || '#')}" 
@@ -224,74 +227,89 @@ class Template {
                             </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
-                <a class="dropdown-item" href="#" id="btn-logout">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
-            </li>
-        </ul>
-    </div>
-</div>
-</div>
-`;
+                                <a class="dropdown-item" href="#" id="btn-logout">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        `;
     }
 
     updateTopMenu() {
         try {
             const token = localStorage.getItem('token');
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', 'http://localhost:5000/api/menus/', false);
-            xhr.setRequestHeader('Authorization', `Bearer ${token}`);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send();
+            const response = fetch('http://localhost:5000/api/menus/', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
 
-            if (xhr.status !== 200) throw new Error('Failed to fetch menu items');
-
-            const menuData = JSON.parse(xhr.responseText);
+            if (!response.ok) throw new Error('Failed to fetch menu items');
+            
+            const menuData = response.json();
             const topMenuContainer = document.getElementById('topMenuItems');
-
+            
             if (topMenuContainer && menuData.top_menus) {
+                // Get current page path
                 const currentPath = window.location.pathname;
-                const activeTopMenu = menuData.top_menus.find(item =>
-                    currentPath.includes(item.url) ||
+                
+                // Find active top menu based on current URL
+                const activeTopMenu = menuData.top_menus.find(item => 
+                    currentPath.includes(item.url) || 
                     (item.side_menus && item.side_menus.some(side => currentPath.includes(side.url)))
                 );
-
+                
                 this.activeTopMenu = activeTopMenu ? activeTopMenu.id : menuData.top_menus[0].id;
 
                 topMenuContainer.innerHTML = menuData.top_menus.map(item => `
-                <li class="nav-item ${item.id === this.activeTopMenu ? 'active' : ''}">
-                    <a class="nav-link" href="#" data-menu-id="${item.id}">
-                        ${item.name}
-                    </a>
-                </li>
-            `).join('');
+                    <li class="nav-item ${item.id === this.activeTopMenu ? 'active' : ''}">
+                        <a class="nav-link" href="#" data-menu-id="${item.id}">
+                            ${item.name}
+                        </a>
+                    </li>
+                `).join('');
 
+                // Add click handlers for top menu items
                 topMenuContainer.querySelectorAll('.nav-link').forEach(link => {
                     link.addEventListener('click', (e) => {
                         e.preventDefault();
                         const menuId = e.currentTarget.dataset.menuId;
+                        console.log('Clicked top menu ID:', menuId);
                         this.activeTopMenu = menuId;
-
-                        topMenuContainer.querySelectorAll('.nav-item').forEach(item =>
+                        
+                        // Update active states
+                        topMenuContainer.querySelectorAll('.nav-item').forEach(item => 
                             item.classList.remove('active')
                         );
                         e.currentTarget.parentElement.classList.add('active');
-
-                        const xhr = new XMLHttpRequest();
-                        xhr.open('GET', 'http://localhost:5000/api/menus/', false);
-                        xhr.setRequestHeader('Authorization', `Bearer ${token}`);
-                        xhr.setRequestHeader('Content-Type', 'application/json');
-                        xhr.send();
-                        const menuData = JSON.parse(xhr.responseText);
-
+                        
+                        // Get menu data again to ensure we have fresh data
+                        const response = fetch('http://localhost:5000/api/menus/', {
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                        const menuData = response.json();
+                        console.log('Menu data:', menuData);
+                        
+                        // Filter side menus
                         const filteredSideMenus = menuData.side_menus.filter(item => {
+                            console.log('Comparing:', item.top_menu, parseInt(menuId));
                             return item.top_menu === parseInt(menuId);
                         });
+                        console.log('Filtered side menus:', filteredSideMenus);
 
+                        // Update sidebar with filtered items
                         const sidebarContent = this.getSidebarHTML();
                         document.getElementById('sidebar').innerHTML = sidebarContent;
                         this.initializeEvents();
 
+                        // Navigate to first sidebar item if available
                         if (filteredSideMenus.length > 0) {
                             const firstItem = filteredSideMenus[0];
                             if (firstItem.submenu && firstItem.submenu.length > 0) {
@@ -303,12 +321,14 @@ class Template {
                     });
                 });
 
+                // Initial sidebar update
                 const sidebarContent = this.getSidebarHTML();
                 document.getElementById('sidebar').innerHTML = sidebarContent;
                 this.initializeEvents();
 
+                // Initial navigation if needed
                 if (!currentPath || currentPath === '/' || currentPath === '/index.html') {
-                    const filteredSideMenus = menuData.side_menus.filter(item =>
+                    const filteredSideMenus = menuData.side_menus.filter(item => 
                         item.top_menu === this.activeTopMenu
                     );
                     if (filteredSideMenus.length > 0) {
@@ -328,8 +348,9 @@ class Template {
 
     updateUserInfo() {
         try {
+            const token = localStorage.getItem('token');
             const userInfo = JSON.parse(localStorage.getItem('user'));
-
+            
             if (userInfo) {
                 const userNameElement = document.querySelector('.user-name');
                 if (userNameElement) {
@@ -342,16 +363,20 @@ class Template {
     }
 
     initializeEvents() {
+        // Remove existing event listeners first
         document.querySelectorAll('.btn-toggle-sidebar').forEach(btn => {
             btn.replaceWith(btn.cloneNode(true));
         });
 
+        // Add new event listeners
         document.querySelectorAll('.btn-toggle-sidebar').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.body.classList.toggle('sidebar-collapsed');
+                console.log('Toggle sidebar clicked');
             });
         });
 
+        // Update submenu toggle
         document.querySelectorAll('.has-submenu > a').forEach(item => {
             item.addEventListener('click', (e) => {
                 const parent = e.currentTarget.parentElement;
@@ -359,6 +384,7 @@ class Template {
             });
         });
 
+        // Search icon click event
         const searchIcon = document.getElementById('search-icon');
         const searchBoxContainer = document.querySelector('.search-box-container');
         const closeSearchBtn = document.getElementById('button-search-close');
@@ -372,23 +398,28 @@ class Template {
             searchBoxContainer.classList.add('d-none');
         });
 
+        // Close search box when clicking outside
         document.addEventListener('click', (event) => {
             if (!event.target.closest('.topbar-search')) {
                 searchBoxContainer.classList.add('d-none');
             }
         });
 
+        // Logout handler
         document.getElementById('btn-logout').addEventListener('click', (e) => {
             e.preventDefault();
             try {
                 const token = localStorage.getItem('token');
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', 'http://localhost:5000/api/auth/logout', false);
-                xhr.setRequestHeader('Authorization', `Bearer ${token}`);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.send();
+                const response = fetch('http://localhost:5000/api/auth/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include'
+                });
 
-                if (xhr.status === 200) {
+                if (response.ok) {
                     localStorage.removeItem('token');
                     localStorage.removeItem('user');
                     window.location.href = '../pages/login.html';

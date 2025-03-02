@@ -1,4 +1,34 @@
 /* Set font for the entire DataTable */
-#locationsTable {
+#locationTable_wrapper {
     font-size: 0.8rem; /* Adjust size as needed */
+}
+
+/* Reduce row spacing */
+#locationTable_wrapper tbody tr,
+#locationTable tbody tr td{
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    line-height: 1.2;
+}
+
+/* Make action buttons smaller */
+#locationTable .btn-group .btn {
+    padding: 0.1rem 0.3rem;
+    font-size: 0.7rem;
+}
+
+/* Fixed width for action column */
+#locationTable th:nth-child(1),
+#locationTable td:nth-child(1) {
+    padding: 0px;
+    min-width: 120px;
+}
+
+#addLocationBtn {
+    font-size: 0.8rem;
+}
+
+/* Add Location Modal font size */
+#addLocationModal {
+    font-size: 0.8rem;
 }
