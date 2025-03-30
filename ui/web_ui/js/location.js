@@ -65,10 +65,10 @@ class Location{
             success: function(response) {
                 // Transform API response to match datatable format
                 const tableData = response['data'].map(item => [
+                    null, // Empty value for action column
                     item.province,
                     item.region,
                     item.city,
-                    null // Empty value for action column
                 ]);
                 self.loadData(tableData);
             },
